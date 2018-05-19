@@ -14,6 +14,7 @@ import util.OMUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -28,10 +29,8 @@ public class OMController {
     private OMService omService;
 
     @RequestMapping("/")
-    public ModelAndView index() {
-        Map model = new HashMap();
-        model.put("title", "index");
-        return new ModelAndView("index", model);
+    public String index() {
+        return "edit";
     }
 
     @RequestMapping("/upload")
@@ -59,21 +58,49 @@ public class OMController {
         }
     }
 
-    @RequestMapping("/login")
+    @RequestMapping(value = "/login", produces = {"application/json;charset=UTF-8"})
     @ResponseBody
-    public String login() {
-        Map model = new HashMap();
-        model.put("data", 1);
-        return JSONObject.toJSONString(model);
+    public String login(String email, String password, HttpSession session) {
+        Map<String, Object> result = new HashMap<>();
+        Author author = omService.login(email, password);
+        if (author != null) {
+            result.put("success", 0);
+            result.put("msg", "登录成功");
+            session.setAttribute("author", author);
+        } else {
+            result.put("success", 1);
+            result.put("msg", "用户名/密码错误,请重试～");
+        }
+        return JSONObject.toJSONString(result);
     }
 
-    @RequestMapping("/register")
+    @RequestMapping(value = "/check", produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public String check(String email) {
+        Map<String, Object> result = new HashMap<>();
+        if (omService.emailIsExist(email)) {
+            result.put("success", 1);
+            result.put("msg", "该邮箱已被注册");
+        } else {
+            result.put("success", 0);
+            result.put("msg", "该邮箱可以使用");
+        }
+        return JSONObject.toJSONString(result);
+    }
+
+    @RequestMapping(value = "/register", produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public String register(String nickname, String email, String password) {
-        Map model = new HashMap();
+        Map<String, Object> result = new HashMap<>();
         Author author = new Author(nickname, email, password);
-        model.put("author", author);
-        return JSONObject.toJSONString(model);
+        if (omService.register(author)) {
+            result.put("success", 0);
+            result.put("msg", "注册成功");
+        } else {
+            result.put("success", 1);
+            result.put("msg", "注册失败，请重试～");
+        }
+        return JSONObject.toJSONString(result);
     }
 
     @GetMapping("/{authorId}")
@@ -82,32 +109,32 @@ public class OMController {
             page = "1";
         }
         System.out.println(page);
-        Map model = new HashMap();
+        Map<String, Object> result = new HashMap<>();
         List<Markdown> markdowns = omService.getMarkdowns(authorId);
         Author author = omService.getAuthor(authorId);
         if (author != null && markdowns != null) {
-            model.put("author", author);
-            model.put("markdowns", OMUtil.splitResultByPage(markdowns, Integer.parseInt(page)));
-            model.put("count", markdowns.size());
-            model.put("current_page", page);
-            model.put("total_pages", (int) markdowns.size() / 10 + 1);
-            return new ModelAndView("list", model);
+            result.put("author", author);
+            result.put("markdowns", OMUtil.splitResultByPage(markdowns, Integer.parseInt(page)));
+            result.put("count", markdowns.size());
+            result.put("current_page", page);
+            result.put("total_pages", (int) markdowns.size() / 10 + 1);
+            return new ModelAndView("user", result);
         }
         return null;
     }
 
     @RequestMapping("/mark")
     public String mark() {
-        return "edit";
+        return "forward:/";
     }
 
     @GetMapping("/{authorId}/markdown/{markdownId}")
     public ModelAndView getMarkdown(@PathVariable long authorId, @PathVariable long markdownId) {
-        Map model = new HashMap();
+        Map<String, Object> result = new HashMap<>();
         Markdown markdown = omService.getMarkdown(authorId, markdownId);
         if (markdown != null) {
-            model.put("markdown", markdown);
-            return new ModelAndView("edit", model);
+            result.put("markdown", markdown);
+            return new ModelAndView("edit", result);
         }
         return null;
     }

@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <nav class="navbar navbar-default">
     <div class="container-fluid">
@@ -12,16 +13,37 @@
         </div>
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav navbar-right">
-                <li>
-                    <a data-toggle="modal" href="javascript:void(0)" onclick="openLoginModal();">
-                        <p>登录</p>
-                    </a>
-                </li>
-                <li>
-                    <a data-toggle="modal" href="javascript:void(0)" onclick="openRegisterModal();">
-                        <p>注册</p>
-                    </a>
-                </li>
+                <c:choose>
+                    <c:when test="${sessionScope.author ne null}">
+                        <li>
+                            <a>
+                                <p>${sessionScope.author.nickname}</p>
+                            </a>
+                        </li>
+                        <li>
+                            <a id="edit">
+                                <p>编辑信息</p>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="${pageContext.request.contextPath}/logout">
+                                <p>注销</p>
+                            </a>
+                        </li>
+                    </c:when>
+                    <c:otherwise>
+                        <li>
+                            <a data-toggle="modal" href="javascript:void(0)" onclick="openLoginModal('');">
+                                <p>登录</p>
+                            </a>
+                        </li>
+                        <li>
+                            <a data-toggle="modal" href="javascript:void(0)" onclick="openRegisterModal();">
+                                <p>注册</p>
+                            </a>
+                        </li>
+                    </c:otherwise>
+                </c:choose>
             </ul>
 
         </div>

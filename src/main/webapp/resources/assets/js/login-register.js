@@ -13,10 +13,10 @@ function showRegisterForm() {
             var registerHtml =
                 '<div>' +
                 '<input id="nickname" class="form-control" type="text" placeholder="用户名" name="nickname">' +
-                '<input id="email" class="form-control" type="text" placeholder="邮箱" name="email">' +
+                '<input id="email" class="form-control" onchange="checkEmail()" type="text" placeholder="邮箱" name="email">' +
                 '<input id="password" class="form-control" type="password" placeholder="密码" name="password">' +
                 '<input id="password_confirmation" class="form-control" type="password" placeholder="确认密码" name="password_confirmation">' +
-                '<input class="btn btn-default btn-register" type="submit" value="注册" name="commit" onclick="register()">' +
+                '<input class="btn btn-default btn-register" type="submit" value="注册" disabled="disabled" onclick="register()">' +
                 '</div>';
             $('.registerBox').html(registerHtml).fadeIn('fast');
             $('.register-footer').fadeIn('fast');
@@ -27,13 +27,13 @@ function showRegisterForm() {
 
 }
 
-function showLoginForm() {
+function showLoginForm(email) {
     $('.registerBox').fadeOut('fast', function () {
         $('.registerBox').html('');
         $('.register-footer').fadeOut('fast', function () {
             var loginHtml =
                 '<div>' +
-                '<input id="email" class="form-control" type="text" placeholder="邮箱" name="email">' +
+                '<input id="email" class="form-control" type="text" placeholder="邮箱" name="email" value="' + email + '">' +
                 '<input id="password" class="form-control" type="password" placeholder="密码" name="password">' +
                 '<input class="btn btn-default btn-login" type="button" value="登录" onclick="login()">' +
                 '</div>';
@@ -46,8 +46,8 @@ function showLoginForm() {
     $('.error').removeClass('alert alert-danger').html('');
 }
 
-function openLoginModal() {
-    showLoginForm();
+function openLoginModal(email) {
+    showLoginForm(email);
     setTimeout(function () {
         $('#loginModal').modal('show');
     }, 230);
@@ -63,49 +63,85 @@ function openRegisterModal() {
 }
 
 function login() {
-    /*   Remove this comments when moving to server
-    $.post( "/login", function( data ) {
-            if(data == 1){
-                window.location.replace("/home");            
+    var email = $("#email").val();
+    var password = $("#password").val();
+    if (email == '') {
+        shakeModal("请输入邮箱哦～");
+        return;
+    }
+    if (password == '') {
+        shakeModal("密码不能为空呀～");
+        return;
+    }
+    $.ajax({
+        type: "POST",
+        url: "/OnlineMarkdown/login",
+        data: {
+            email: email,
+            password: password,
+        },
+        success: function (data) {
+            if (data.success == 0) {
+                window.location.href = "/OnlineMarkdown";
             } else {
-                 shakeModal(); 
+                shakeModal(data.msg);
             }
-        });
-    */
-
-    /*   Simulate error message from the server   */
-    shakeModal("用户名或密码错误，请重试～");
+        },
+        error: function () {
+            shakeModal("请求失败，请重试");
+        }
+    });
 }
 
 function register() {
-    console.log($("#password").val());
-    console.log($("#password_confirmation").val());
-    if ($("#password").val() != '' || $("#password_confirmation").val() != '') {
-        shakeModal("密码不能为空～")
-    } else if ($("#password").val().length < 6) {
-        shakeModal("密码至少6位～");
-    } else if ($("#password").val() != '' && $("#password_confirmation").val() != '') {
-        if ($("#password").val() != $("#password_confirmation").val()) {
-            shakeModal("两次输入的密码不一致～");
-        }
-    } else {
-        $.ajax({
-            type: "POST",
-            url: "/OnlineMarkdown/register",
-            data: {
-                nickname: $("#nickname").val(),
-                email: $("#email").val(),
-                password: $("#password").val(),
-                password_confirmation: $("#password_confirmation").val()
-            },
-            success: function (data) {
-                console.log(data);
-            },
-            error: function () {
-                console.log("error")
-            }
-        });
+    var password = $("#password").val();
+    var password_confirmation = $("#password_confirmation").val();
+    var nickname = $("#nickname").val();
+    var email = $("#email").val();
+
+    if (nickname == '') {
+        shakeModal("给自己起一个好听的名字吧～");
+        return;
     }
+    if (email == '') {
+        shakeModal("请输入邮箱哦～");
+        return;
+    }
+    if (password == '' || password_confirmation == '') {
+        shakeModal("密码不能为空呀～");
+        return;
+    }
+    if (password.length < 6) {
+        shakeModal("密码至少6位哟～");
+        return;
+    }
+    if (password != '' && password_confirmation != '') {
+        if (password != password_confirmation) {
+            shakeModal("两次输入的密码不一样啊～");
+            return;
+        }
+    }
+    $.ajax({
+        type: "POST",
+        url: "/OnlineMarkdown/register",
+        data: {
+            nickname: nickname,
+            email: email,
+            password: password,
+            password_confirmation: password_confirmation
+        },
+        success: function (data) {
+            if (data.success == 0) {
+                openLoginModal($("#email").val());
+            } else {
+                shakeModal(data.msg);
+            }
+        },
+        error: function () {
+            shakeModal("请求失败，请重试");
+        }
+    });
+
 }
 
 function shakeModal(msg) {
@@ -115,6 +151,24 @@ function shakeModal(msg) {
     setTimeout(function () {
         $('#loginModal .modal-dialog').removeClass('shake');
     }, 1000);
+}
+
+function checkEmail() {
+    $.ajax({
+        type: "POST",
+        url: "/OnlineMarkdown/check",
+        data: {
+            email: $("#email").val(),
+        },
+        success: function (data) {
+            if (data.success == 0) {
+                $('.btn-register').removeAttr('disabled');
+            }
+        },
+        error: function () {
+            shakeModal("请求失败，请重试");
+        }
+    });
 }
 
    

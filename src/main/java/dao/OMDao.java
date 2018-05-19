@@ -14,4 +14,10 @@ public interface OMDao {
     Markdown getMarkdown(long authorId, long markdownId);
 
     Author getAuthor(long authorId);
+
+    int register(Author author);
+
+    int emailIsExist(String email);
+
+    Author login(String email, String password);
 }
