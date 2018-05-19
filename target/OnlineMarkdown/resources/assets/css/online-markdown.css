@@ -1,0 +1,37 @@
+#markdown-list a {
+    font-size: 17px;
+}
+
+#markdown-list small {
+    position: absolute;
+    right: 85px;
+    font-size: 10px;
+    top: 15px;
+}
+
+#markdown-list span {
+    position: absolute;
+    right: 10px;
+    text-align: center;
+    cursor: pointer;
+    color: #dd514c;
+    width: 50px;
+    height: 42px;
+    padding: 14px;
+}
+
+.pagination {
+    position: absolute;
+    bottom: 0px;
+    left: 50%;
+    transform: translateX(-50%)
+}
+
+.alert-danger {
+    color: #b94a48;
+    background-color: #f2dede;
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}

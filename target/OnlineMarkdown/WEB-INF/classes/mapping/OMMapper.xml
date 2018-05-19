@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD
+ Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dao.OMDao">
+    <insert id="saveMarkdown" parameterType="Markdown">
+        update Markdown set authorId = #{authorId},title = #{title},content = #{content} where markdownId = #{markdownId};
+    </insert>
+    <select id="getMarkdowns" resultType="Markdown">
+        select * from Markdown where authorId = #{arg0};
+    </select>
+    <select id="getMarkdown" resultType="Markdown">
+        select * from Markdown where authorId = #{arg0} and markdownId = #{arg1};
+    </select>
+    <select id="getAuthor" resultType="Author">
+        select * from Author where authorId = #{arg0};
+    </select>
+</mapper>
