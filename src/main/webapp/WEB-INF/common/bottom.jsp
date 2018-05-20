@@ -6,7 +6,6 @@
         <nav class="pull-left">
             <ul>
                 <li>
-
                     <a href="mailto:1033780702@qq.com">
                         <i class="fa fa-envelope" aria-hidden="true">&nbsp;&nbsp;Email</i>
                     </a>
@@ -21,11 +20,17 @@
                         <i class="fa fa-spinner" aria-hidden="true">&nbsp;&nbsp;Shaozb's Blog</i>
                     </a>
                 </li>
+                <li>
+                    <a href="http://www.miitbeian.gov.cn"
+                       target="_blank"><i class="fa fa-beer"
+                                          aria-hidden="true">&nbsp;&nbsp;辽ICP备18000573号</i></a>
+                </li>
             </ul>
         </nav>
         <div class="copyright pull-right">
             &copy;&nbsp;<span id="newYear"></span>
-            , made with <i class="fa fa-heart heart" aria-hidden="true"></i> by <a href="#">Shaozb</a>.
+            , made with <i class="fa fa-heart heart" aria-hidden="true"></i> by <a href="https://blog.shaozb.xin"
+                                                                                   target="_blank">Shaozb</a>.
         </div>
     </div>
 </footer>

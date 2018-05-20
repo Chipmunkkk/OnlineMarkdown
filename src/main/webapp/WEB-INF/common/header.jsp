@@ -28,8 +28,6 @@
 
     <link href="${pageContext.request.contextPath}/resources/assets/css/themify-icons.css" rel="stylesheet">
 
-    <%--<link href="${pageContext.request.contextPath}/resources/assets/css/bootstrap.css" rel="stylesheet"/>--%>
-
     <link href="${pageContext.request.contextPath}/resources/assets/css/login-register.css" rel="stylesheet"/>
 
     <script src="${pageContext.request.contextPath}/resources/assets/js/jquery-1.10.2.js"
@@ -43,4 +41,3 @@
 
 <body>
 <jsp:include page="modal/modal_dialog.jsp"/>
-<jsp:include page="modal/modal_login_register.jsp"/>

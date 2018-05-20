@@ -30,6 +30,27 @@ public class OMController {
 
     @RequestMapping("/")
     public String index() {
+        return "mark";
+    }
+
+    @RequestMapping("/login")
+    public String login() {
+        return "login";
+    }
+
+    @RequestMapping("/register")
+    public String register() {
+        return "register";
+    }
+
+    @RequestMapping("/logout")
+    public String logout(HttpSession session) {
+        session.invalidate();
+        return "redirect:/";
+    }
+
+    @RequestMapping("/edit")
+    public String edit() {
         return "edit";
     }
 
@@ -58,7 +79,7 @@ public class OMController {
         }
     }
 
-    @RequestMapping(value = "/login", produces = {"application/json;charset=UTF-8"})
+    @RequestMapping(value = "/loginConfirm", produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public String login(String email, String password, HttpSession session) {
         Map<String, Object> result = new HashMap<>();
@@ -88,7 +109,7 @@ public class OMController {
         return JSONObject.toJSONString(result);
     }
 
-    @RequestMapping(value = "/register", produces = {"application/json;charset=UTF-8"})
+    @RequestMapping(value = "/registerConfirm", produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public String register(String nickname, String email, String password) {
         Map<String, Object> result = new HashMap<>();
@@ -134,7 +155,7 @@ public class OMController {
         Markdown markdown = omService.getMarkdown(authorId, markdownId);
         if (markdown != null) {
             result.put("markdown", markdown);
-            return new ModelAndView("edit", result);
+            return new ModelAndView("mark", result);
         }
         return null;
     }

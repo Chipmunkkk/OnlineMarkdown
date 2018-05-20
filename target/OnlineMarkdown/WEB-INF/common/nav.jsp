@@ -9,7 +9,7 @@
                 <span class="icon-bar bar2"></span>
                 <span class="icon-bar bar3"></span>
             </button>
-            <a class="navbar-brand" href="#">${param.nav_title}</a>
+            <a class="navbar-brand" href="/">${param.nav_title}</a>
         </div>
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav navbar-right">
@@ -21,25 +21,26 @@
                             </a>
                         </li>
                         <li>
-                            <a data-toggle="modal"
-                               href="${pageContext.request.contextPath}/${sessionScope.author.authorId}">
+                            <a href="${pageContext.request.contextPath}/edit">
                                 <p>编辑信息</p>
                             </a>
                         </li>
                         <li>
-                            <a data-toggle="modal" href="${pageContext.request.contextPath}/logout">
+                            <a href="${pageContext.request.contextPath}/logout">
                                 <p>注销</p>
                             </a>
                         </li>
                     </c:when>
                     <c:otherwise>
                         <li>
-                            <a data-toggle="modal" href="javascript:void(0)" onclick="openLoginModal('');">
+                                <%--<a data-toggle="modal" href="javascript:void(0)" onclick="openLoginModal('');">--%>
+                            <a href="${pageContext.request.contextPath}/login">
                                 <p>登录</p>
                             </a>
                         </li>
                         <li>
-                            <a data-toggle="modal" href="javascript:void(0)" onclick="openRegisterModal();">
+                                <%--<a data-toggle="modal" href="javascript:void(0)" onclick="openRegisterModal();">--%>
+                            <a href="${pageContext.request.contextPath}/register">
                                 <p>注册</p>
                             </a>
                         </li>
