@@ -1,24 +1,30 @@
 package util;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
 
 public class OMUtil {
 
-    private static final int NUM = 13;
-
-    public static <T> List<T> splitResultByPage(List<T> unHandleList, int page) {
-        List<T> result = new ArrayList<T>();
-        if (unHandleList.size() < 10) {
-            for (int i = 0; i < unHandleList.size(); i++) {
-                result.add(unHandleList.get(i));
-            }
-        } else {
-            for (int i = (page - 1) * 10; i < ((page - 1) * 10) + NUM; i++) {
-                result.add(unHandleList.get(i));
-            }
+    /**
+     * 生成用SimpleDateFormat格式化过的Date对象
+     *
+     * @return Date对象
+     * @see Date
+     * @see SimpleDateFormat
+     */
+    public static Date generateFormattedDate() {
+        Date date = new Date();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        df.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai")); //设置时区
+        Date formatDate = null;
+        try {
+            formatDate = df.parse(df.format(date));
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
-        return result;
+        return formatDate;
     }
 
     /**

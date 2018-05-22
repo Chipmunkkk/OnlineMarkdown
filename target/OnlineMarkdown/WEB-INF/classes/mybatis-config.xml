@@ -3,7 +3,6 @@
         PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
-
     <!--将sql信息输出到控制台-->
     <settings>
         <setting name="logImpl" value="STDOUT_LOGGING"/>
@@ -26,7 +25,8 @@
     </environments>
 
     <mappers>
-        <mapper resource="mapping/OMMapper.xml"/>
+        <mapper resource="mapping/AuthorMapper.xml"/>
+        <mapper resource="mapping/MarkdownMapper.xml"/>
     </mappers>
 
 </configuration>

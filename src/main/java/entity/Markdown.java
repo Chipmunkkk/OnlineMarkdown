@@ -12,5 +12,6 @@ public class Markdown {
     private Date updateDate;
     private String title;
     private String content;
+    private int num;
 
 }

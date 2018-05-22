@@ -12,13 +12,13 @@ public class Author {
     private String email;
     private String password;
 
-    public Author(){
+    public Author() {
 
     }
 
     public Author(String nickname, String email, String password) {
         this.nickname = nickname;
         this.email = email;
-        this.password  = password;
+        this.password = password;
     }
 }

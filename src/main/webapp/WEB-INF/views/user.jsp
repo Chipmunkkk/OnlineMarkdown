@@ -8,7 +8,7 @@
     </jsp:include>
     <div class="main-panel">
         <jsp:include page="../common/nav.jsp">
-            <jsp:param name="nav_title" value="个人中心"/>
+            <jsp:param name="nav_title" value="我的Markdown"/>
         </jsp:include>
         <div class="content">
             <div class="container-fluid">
@@ -44,27 +44,11 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="card" id="daily-pic-panel">
-                            <%--<div class="row">--%>
-                            <%--<div class="col-sm-6 col-md-4">--%>
-                            <%--<div class="thumbnail">--%>
-                            <%--<img src="..." alt="...">--%>
-                            <%--<div class="caption">--%>
-                            <%--<h3>Thumbnail label</h3>--%>
-                            <%--<p>...</p>--%>
-                            <%--<p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#"--%>
-                            <%--class="btn btn-default"--%>
-                            <%--role="button">Button</a>--%>
-                            <%--</p>--%>
-                            <%--</div>--%>
-                            <%--</div>--%>
-                            <%--</div>--%>
-                            <%--</div>--%>
+                        <div class="card" id="daily-pic-panel" style="height: 322px;">
                             <div class="header">
-                                <h4 class="title">Team Members</h4>
+                                <h4 class="title"></h4>
                             </div>
                             <div class="content">
-
                             </div>
                         </div>
                     </div>
@@ -78,12 +62,16 @@
                                 <ul class="list-group" id="markdown-list">
                                     <c:forEach items="${markdowns}" var="markdown" varStatus="idx">
                                         <li class="list-group-item"><a
-                                                href="./${markdown.authorId}/markdown/${markdown.markdownId}">
+                                                href="${pageContext.request.contextPath}/${markdown.authorId}/markdown/${markdown.markdownId}">
                                                 ${idx.index + 1}. ${markdown.title}</a>
-                                            <small><fmt:formatDate value="${markdown.updateDate}" type="date"
-                                                                   dateStyle="full"/></small>
+                                            <small><fmt:formatDate type="both"
+                                                                   dateStyle="medium" timeStyle="medium"
+                                                                   value="${markdown.updateDate}"/></small>
                                             <span class="glyphicon glyphicon-trash" aria-hidden="true"
-                                                  data-toggle="modal" data-target="#markdown_alert"></span></li>
+                                                  data-toggle="modal" data-target="#markdown_alert"
+                                                  data-markdownId="${markdown.markdownId}"
+                                                  data-authorId="${markdown.authorId}"
+                                                  data-markdownTitle="${markdown.title}"></span></li>
                                     </c:forEach>
                                 </ul>
                             </div>
@@ -97,15 +85,16 @@
                                         </li>
                                     </c:when>
                                     <c:otherwise>
-                                        <li><a href="${pageContext.request.contextPath}/0/?page=${current_page - 1}"
+                                        <li>
+                                            <a href="${pageContext.request.contextPath}/${sessionScope.author.authorId}/?page=${current_page - 1}"
                                                aria-label="Previous">
-                                            <span aria-hidden="true">&laquo;</span></a>
+                                                <span aria-hidden="true">&laquo;</span></a>
                                         </li>
                                     </c:otherwise>
                                 </c:choose>
                                 <c:forEach begin="1" end="${total_pages}" varStatus="idx">
                                     <li ${idx.index eq current_page?"class='am-active'":''}><a
-                                            href="${pageContext.request.contextPath}/0/?page=${idx.index}">${idx.index}</a>
+                                            href="${pageContext.request.contextPath}/${sessionScope.author.authorId}/?page=${idx.index}">${idx.index}</a>
                                     </li>
                                 </c:forEach>
                                 <c:choose>
@@ -118,7 +107,7 @@
                                     </c:when>
                                     <c:otherwise>
                                         <li>
-                                            <a href="${pageContext.request.contextPath}/0/?page=${current_page + 1}"
+                                            <a href="${pageContext.request.contextPath}/${sessionScope.author.authorId}/?page=${current_page + 1}"
                                                aria-label="Next">
                                                 <span aria-hidden="true">&raquo;</span></a>
                                         </li>

@@ -4,7 +4,7 @@
     <div class="sidebar-wrapper">
         <div class="logo">
             <a href="#" class="simple-text">
-                在线<br>Markdown 编辑器
+                Markdown
             </a>
         </div>
         <ul class="nav" style="float:none;">
@@ -17,7 +17,7 @@
             <li ${param.tabIdx eq 1?"class='active'":''}>
                 <c:choose>
                 <c:when test="${sessionScope.author.authorId eq null}">
-                <a data-toggle="modal" href="javascript:void(0)" onclick="openLoginModal('');">
+                <a href="${pageContext.request.contextPath}/login">
                     </c:when>
                     <c:otherwise>
                     <a href="${pageContext.request.contextPath}/${sessionScope.author.authorId}">
@@ -27,8 +27,14 @@
                         <p>Get 一下</p>
                     </a>
             </li>
+            <li ${param.tabIdx eq 2?"class='active'":''}>
+                <a href="${pageContext.request.contextPath}/${sessionScope.author.authorId}/edit">
+                    <i class="ti-user"></i>
+                    <p>个人中心</p>
+                </a>
+            </li>
             <li class="active-pro">
-                <a href="https://github.com/Chipmunkkk" target="_blank">
+                <a href="https://github.com/Chipmunkkk/OnlineMarkdown" target="_blank">
                     <p style="text-align: center">关于</p>
                 </a>
             </li>

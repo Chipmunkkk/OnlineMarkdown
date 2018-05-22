@@ -28,7 +28,7 @@
                 <div class="form-group">
                     <label for="email" class="sr-only">邮箱</label>
                     <input type="email" class="form-control" id="email" name="email" placeholder="邮箱"
-                           autocomplete="email" onchange="checkEmail()">
+                           autocomplete="email">
                 </div>
                 <div class="form-group">
                     <label for="password" class="sr-only">密码</label>

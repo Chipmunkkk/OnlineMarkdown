@@ -1,3 +1,4 @@
+<%@ page import="entity.Markdown" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="../common/header.jsp"/>
@@ -65,7 +66,6 @@
             saveHTMLToTextarea:
                 true,
             toolbarIcons:
-
                 function () {
                     return ["save-button", "auto-save", "undo", "redo", "|",
                         "bold", "del", "italic", "quote", "ucwords", "uppercase", "lowercase", "|",
@@ -73,7 +73,7 @@
                         "list-ul", "list-ol", "hr", "|",
                         "link", "reference-link", "image", "code", "preformatted-text", "code-block", "table", "datetime", "emoji", "html-entities", "pagebreak", "|",
                         "goto-line", "watch", "preview", "fullscreen", "clear", "search", "|",
-                        "help", "info"]
+                        "help", "info", "|", "title"]
                 }
 
             ,
@@ -84,6 +84,10 @@
                     "fa-clock-o" //自动保存按钮,默认开启自动保存
             }
             ,
+            toolbarCustomIcons: {
+                title: "<input type='text' id='title' value='${markdown.title}' style='border:0px;border-bottom:1px solid;width:300px' placeholder='在此输入文章标题' required='required'/>"
+            }
+            ,
             toolbarHandlers: {
                 /**
                  * @param {Object}      cm         CodeMirror对象
@@ -92,28 +96,42 @@
                  * @param {String}      selection  编辑器选中的文本
                  */
                 "save-button":
-
                     function (cm, icon, cursor, selection) {
+                        if (${sessionScope.author.authorId eq null}) {
+                            window.location.href = "/OnlineMarkdown/login";
+                        }
                         $.ajax({
                             type: "POST",
-                            url: "/OnlineMarkdown/0/markdown/0",
+                            <c:choose>
+                            <c:when test="${markdown.content ne null}">
+                            url: "/OnlineMarkdown/${sessionScope.author.authorId}/markdown/${markdown.markdownId}",
+                            </c:when>
+                            <c:otherwise>
+                            url: "/OnlineMarkdown/${sessionScope.author.authorId}/markdown",
+                            </c:otherwise>
+                            </c:choose>
                             data: {
-                                _method: "put",
-                                content: $("#my-editormd-html-code").val(),
-                                title: editormd("my-editormd").getHTML()
+                                ${markdown.content eq null? "" :"_method: 'put',"}
+                                title: $("#title").val(),
+                                markdown: $("#my-editormd-html-code").val(),
+                                html: editormd("my-editormd").getHTML()
                             },
                             success: function (data) {
-                                console.log("Save success!");
+                                var currentURL = window.location.href;
+                                if (endsWith(currentURL, "/")) {
+                                    window.location.href = "/OnlineMarkdown/${sessionScope.author.authorId}/markdown/" + data.mark.markdownId;
+                                }
+                                console.log("Save success!")
                             },
                             error: function () {
                                 console.log("Save failed!")
                             }
                         });
-                    }
+                    },
+                "auto-save": function () {
 
-                ,
-            }
-            ,
+                }
+            },
             lang: {
                 toolbar: {
                     "save-button":
@@ -125,6 +143,16 @@
         })
         ;
     });
+
+    function endsWith(str, target) {
+        // 请把你的代码写在这里
+        var start = str.length - target.length;
+        var arr = str.substr(start, target.length);
+        if (arr == target) {
+            return true;
+        }
+        return false;
+    }
 </script>
 <script type="text/javascript">
     $(function () {

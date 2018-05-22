@@ -16,13 +16,8 @@
                 <c:choose>
                     <c:when test="${sessionScope.author ne null}">
                         <li>
-                            <a>
+                            <a href="${pageContext.request.contextPath}/${sessionScope.author.authorId}/edit">
                                 <p>${sessionScope.author.nickname}</p>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="${pageContext.request.contextPath}/edit">
-                                <p>编辑信息</p>
                             </a>
                         </li>
                         <li>
@@ -33,13 +28,11 @@
                     </c:when>
                     <c:otherwise>
                         <li>
-                                <%--<a data-toggle="modal" href="javascript:void(0)" onclick="openLoginModal('');">--%>
                             <a href="${pageContext.request.contextPath}/login">
                                 <p>登录</p>
                             </a>
                         </li>
                         <li>
-                                <%--<a data-toggle="modal" href="javascript:void(0)" onclick="openRegisterModal();">--%>
                             <a href="${pageContext.request.contextPath}/register">
                                 <p>注册</p>
                             </a>

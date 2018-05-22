@@ -11,10 +11,9 @@ function itemAnimation() {
     if ($(window).width() > 1120) {
         $("#markdown-list").find("small").css("display", "");
     }
-};
-var windowHeight = $(window).height();
-$("#markdown-panel").height(windowHeight - ((74 + 30) * 2));
-$("#daily-pic-panel").height(windowHeight - ((74 + 30) * 2) - 448);
+}
+
+$("#markdown-panel").height(770);
 $(window).resize(function () {
     itemAnimation()
 });

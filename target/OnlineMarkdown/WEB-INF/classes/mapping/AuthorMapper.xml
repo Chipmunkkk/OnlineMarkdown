@@ -2,15 +2,12 @@
 <!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD
  Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="dao.OMDao">
-    <insert id="saveMarkdown" parameterType="Markdown">
-        update Markdown set authorId = #{authorId},title = #{title},content = #{content} where markdownId = #{markdownId};
-    </insert>
-    <select id="getMarkdowns" resultType="Markdown">
-        select * from Markdown where authorId = #{arg0};
+<mapper namespace="dao.AuthorDao">
+    <select id="getMarkdownCount" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM Markdown where authorId = #{arg0};
     </select>
-    <select id="getMarkdown" resultType="Markdown">
-        select * from Markdown where authorId = #{arg0} and markdownId = #{arg1};
+    <select id="getMarkdowns" resultType="Markdown">
+        select * from Markdown where authorId = #{arg0} ORDER BY updateDate DESC limit #{arg1},#{arg2};
     </select>
     <select id="getAuthor" resultType="Author">
         select * from Author where authorId = #{arg0};
@@ -24,4 +21,7 @@
     <select id="login" resultType="Author">
         select * from Author where email = #{arg0} and password = #{arg1};
     </select>
+    <update id="updateProfile">
+        update Author set  nickname = #{arg1},description = #{arg4},email=#{arg2},password=#{arg3}  where authorId = #{arg0};
+    </update>
 </mapper>

@@ -86,12 +86,7 @@ function showError(msg) {
 
 function checkEmail() {
     var email = $("#email").val();
-    var myreg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
-    if (!myreg.test(email)) {
-        showError('请输入有效的邮箱地址！');
-        $("#email").focus();
-        return false;
-    }
+    verifyEmail(email);
     $.ajax({
         type: "POST",
         url: "/OnlineMarkdown/check",
@@ -113,6 +108,11 @@ function checkEmail() {
 
 function verifyEmail(email) {
     //对电子邮件的验证
-
+    var myreg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
+    if (!myreg.test(email)) {
+        showError('请输入有效的邮箱地址！');
+        $("#email").focus();
+        return false;
+    }
 }
    

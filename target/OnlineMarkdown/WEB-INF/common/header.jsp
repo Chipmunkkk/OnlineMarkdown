@@ -35,7 +35,6 @@
     <script src="${pageContext.request.contextPath}/resources/assets/js/bootstrap.js" type="text/javascript"></script>
     <script src="${pageContext.request.contextPath}/resources/assets/js/login-register.js"
             type="text/javascript"></script>
-
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/online-markdown.css"/>
 </head>
 
