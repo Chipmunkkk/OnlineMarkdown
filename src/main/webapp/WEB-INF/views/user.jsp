@@ -44,13 +44,6 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="card" id="daily-pic-panel" style="height: 322px;">
-                            <div class="header">
-                                <h4 class="title"></h4>
-                            </div>
-                            <div class="content">
-                            </div>
-                        </div>
                     </div>
                     <div class="col-lg-8 col-md-7">
                         <div class="card" id="markdown-panel">

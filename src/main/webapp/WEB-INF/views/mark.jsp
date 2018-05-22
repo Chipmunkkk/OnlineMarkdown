@@ -1,4 +1,3 @@
-<%@ page import="entity.Markdown" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="../common/header.jsp"/>
@@ -13,12 +12,19 @@
         <div class="content">
             <div class="container-fluid">
                 <div class="row">
-
                     <div class="col-md-12">
                         <div class="card">
                             <div id="my-editormd" style=";border-radius: 6px;">
-        <textarea id="my-editormd-markdown-doc" name="my-editormd-markdown-doc"
-                  style="display:none;">${markdown.content}</textarea>
+                                <c:choose>
+                                    <c:when test="${markdown.content ne null}">
+                <textarea id="my-editormd-markdown-doc" name="my-editormd-markdown-doc"
+                          style="display:none;">${markdown.content}</textarea>
+                                    </c:when>
+                                    <c:otherwise>
+                <textarea id="my-editormd-markdown-doc" name="my-editormd-markdown-doc"
+                          style="display:none;"></textarea>
+                                    </c:otherwise>
+                                </c:choose>
                                 <!-- 注意：name属性的值-->
                                 <textarea id="my-editormd-html-code" name="my-editormd-html-code"
                                           style="display:none;"></textarea>
@@ -28,7 +34,6 @@
                                  style="display:none;">
                                 <textarea style="display:none;" name="editormd-markdown-doc"></textarea>
                             </div>
-                            <input type="hidden" id="auto-saver-status" value="true">
                         </div>
                     </div>
                 </div>
@@ -38,6 +43,46 @@
     </div>
 </div>
 <script type="text/javascript">
+    var markdown = JSON.parse(sessionStorage.getItem('markdown'));
+    window.onload = function () {
+        if (markdown != null) {
+            $("#title").val(markdown.title);
+        }
+    };
+
+    $(function () {
+        if (markdown != null) {
+            $("#my-editormd-markdown-doc").val(markdown.content);
+        }
+    });
+
+    sessionStorage.removeItem('markdown');
+
+    if (getQueryString('tag') == 0) {
+        showNotice('文章保存成功', 'success')
+    }
+
+    function getQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");  // 匹配目标参数
+        var result = window.location.search.substr(1).match(reg); // 对querystring匹配目标参数
+        if (result != null) {
+            return decodeURIComponent(result[2]);
+        } else {
+            return null;
+        }
+    }
+
+    function showNotice(msg, type) {
+        $.notify({
+            icon: 'ti-bell',
+            message: "<b>" + msg + "</b>"
+
+        }, {
+            type: type,
+            timer: 4000
+        });
+    }
+
     var windowHeight = $(window).height();
     var Editormd;
     $(function () {
@@ -47,16 +92,12 @@
             syncScrolling: "single",
             path:
                 "${pageContext.request.contextPath}/resources/lib/",
-
             emoji:
                 true,//emoji表情，默认关闭
             taskList:
                 true,
             tocm:
                 true, // Using [TOCM]
-            tex:
-                true,// 开启科学公式TeX语言支持，默认关闭
-
             imageUpload:
                 true,
             imageFormats:
@@ -67,7 +108,7 @@
                 true,
             toolbarIcons:
                 function () {
-                    return ["save-button", "auto-save", "undo", "redo", "|",
+                    return ["save", "undo", "redo", "|",
                         "bold", "del", "italic", "quote", "ucwords", "uppercase", "lowercase", "|",
                         "h1", "h2", "h3", "h4", "h5", "h6", "|",
                         "list-ul", "list-ol", "hr", "|",
@@ -78,10 +119,8 @@
 
             ,
             toolbarIconsClass: {
-                "save-button":
-                    "fa-save", //保存按钮
-                "auto-save":
-                    "fa-clock-o" //自动保存按钮,默认开启自动保存
+                "save":
+                    "fa-save" //保存按钮
             }
             ,
             toolbarCustomIcons: {
@@ -95,10 +134,20 @@
                  * @param {Object}      cursor     CodeMirror的光标对象，可获取光标所在行和位置
                  * @param {String}      selection  编辑器选中的文本
                  */
-                "save-button":
+                "save":
                     function (cm, icon, cursor, selection) {
                         if (${sessionScope.author.authorId eq null}) {
+                            var info = {
+                                title: $('#title').val(),
+                                content: $("#my-editormd-html-code").val(),
+                                html: editormd("my-editormd").getHTML()
+                            };
+                            sessionStorage.setItem('markdown', JSON.stringify(info));
+                            console.log("保存成功")
                             window.location.href = "/OnlineMarkdown/login";
+                        }
+                        if ($('#title').val() == '') {
+                            $('#title').val('未命名Markdown');
                         }
                         $.ajax({
                             type: "POST",
@@ -117,10 +166,7 @@
                                 html: editormd("my-editormd").getHTML()
                             },
                             success: function (data) {
-                                var currentURL = window.location.href;
-                                if (endsWith(currentURL, "/")) {
-                                    window.location.href = "/OnlineMarkdown/${sessionScope.author.authorId}/markdown/" + data.mark.markdownId;
-                                }
+                                window.location.href = "/OnlineMarkdown/${sessionScope.author.authorId}/markdown/" + data.mark.markdownId + "?tag=0";
                                 console.log("Save success!")
                             },
                             error: function () {
@@ -128,31 +174,16 @@
                             }
                         });
                     },
-                "auto-save": function () {
-
-                }
             },
             lang: {
                 toolbar: {
-                    "save-button":
-                        "保存",
-                    "auto-save":
-                        "自动保存，每5分钟自动保存一次，默认开启"
+                    "save":
+                        "保存"
                 }
             }
         })
         ;
     });
-
-    function endsWith(str, target) {
-        // 请把你的代码写在这里
-        var start = str.length - target.length;
-        var arr = str.substr(start, target.length);
-        if (arr == target) {
-            return true;
-        }
-        return false;
-    }
 </script>
 <script type="text/javascript">
     $(function () {

@@ -252,8 +252,8 @@ CodeMirror.defineMode("haxe", function(config, parserConfig) {
       if (type == wanted) return cont();
       else if (wanted == ";") return pass();
       else return cont(f);
-    };
-    return f;
+    }
+      return f;
   }
 
   function statement(type) {
@@ -488,7 +488,6 @@ CodeMirror.defineMode("hxml", function () {
 
       if (state.inString == false && ch == "'") {
         state.inString = true;
-        ch = stream.next();
       }
 
       if (state.inString == true) {

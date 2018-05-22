@@ -6,7 +6,7 @@
 	// Placeholder 
 	var placeholderFunction = function() {
 		$('input, textarea').placeholder({ customClass: 'my-placeholder' });
-	}
+	};
 	
 	// Placeholder 
 	var contentWayPoint = function() {

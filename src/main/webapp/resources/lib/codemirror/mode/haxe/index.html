@@ -105,12 +105,7 @@ enum Color
 </div>
 
     <script>
-      var editor = CodeMirror.fromTextArea(document.getElementById("code-haxe"), {
-      	mode: "haxe",
-        lineNumbers: true,
-        indentUnit: 4,
-        indentWithTabs: true
-      });
+      var editor;
       
       editor = CodeMirror.fromTextArea(document.getElementById("code-hxml"), {
       	mode: "hxml",

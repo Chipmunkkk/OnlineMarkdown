@@ -1,8 +1,4 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-
-<script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
-<script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
 <!-- Checkbox, Radio & Switch Plugins -->
 <script src="${pageContext.request.contextPath}/resources/assets/js/bootstrap-checkbox-radio.js"></script>
 

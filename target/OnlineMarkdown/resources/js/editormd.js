@@ -11,7 +11,7 @@
  */
 
 ;(function (factory) {
-    "use strict"
+    "use strict";
 
     // CommonJS/Node.js
     if (
@@ -34,9 +34,9 @@
 })(function () {
     /* Require.js assignment replace */
 
-    "use strict"
+    "use strict";
 
-    var $ = typeof jQuery !== "undefined" ? jQuery : Zepto
+    var $ = typeof jQuery !== "undefined" ? jQuery : Zepto;
 
     if (typeof $ === "undefined") {
         return
@@ -52,12 +52,12 @@
 
     var editormd = function (id, options) {
         return new editormd.fn.init(id, options)
-    }
+    };
 
-    editormd.title = editormd.$name = "Editor.md"
-    editormd.version = "1.5.0"
-    editormd.homePage = "https://pandao.github.io/editor.md/"
-    editormd.classPrefix = "editormd-"
+    editormd.title = editormd.$name = "Editor.md";
+    editormd.version = "1.5.0";
+    editormd.homePage = "https://pandao.github.io/editor.md/";
+    editormd.classPrefix = "editormd-";
 
     editormd.toolbarModes = {
         full: [
@@ -135,7 +135,7 @@
             "info"
         ],
         mini: ["undo", "redo", "|", "watch", "preview", "|", "help", "info"]
-    }
+    };
 
     editormd.defaults = {
         mode: "gfm", //gfm or markdown
@@ -382,17 +382,17 @@
                 }
             }
         }
-    }
+    };
     editormd.classNames = {
         tex: editormd.classPrefix + "tex"
-    }
-    editormd.dialogZindex = 99999
-    editormd.$katex = null
-    editormd.$marked = null
-    editormd.$CodeMirror = null
-    editormd.$prettyPrint = null
+    };
+    editormd.dialogZindex = 99999;
+    editormd.$katex = null;
+    editormd.$marked = null;
+    editormd.$CodeMirror = null;
+    editormd.$prettyPrint = null;
 
-    var timer, flowchartTimer
+    var timer, flowchartTimer;
 
     editormd.prototype = editormd.fn = {
         state: {
@@ -412,34 +412,34 @@
          */
 
         init: function (id, options) {
-            options = options || {}
+            options = options || {};
             if (typeof id === "object") {
                 options = id
             }
-            var _this = this
-            var classPrefix = (this.classPrefix = editormd.classPrefix)
+            var _this = this;
+            var classPrefix = (this.classPrefix = editormd.classPrefix);
             var settings = (this.settings = $.extend(
                 true,
                 editormd.defaults,
                 options
-            ))
-            id = typeof id === "object" ? settings.id : id
+            ));
+            id = typeof id === "object" ? settings.id : id;
 
-            var editor = (this.editor = $("#" + id))
-            this.id = id
-            this.lang = settings.lang
+            var editor = (this.editor = $("#" + id));
+            this.id = id;
+            this.lang = settings.lang;
             var classNames = (this.classNames = {
                 textarea: {
                     html: classPrefix + "html-textarea",
                     markdown: classPrefix + "markdown-textarea"
                 }
-            })
+            });
             settings.pluginPath =
                 settings.pluginPath === ""
                     ? settings.path + "../plugins/"
-                    : settings.pluginPath
+                    : settings.pluginPath;
 
-            this.state.watching = settings.watch ? true : false
+            this.state.watching = settings.watch ? true : false;
             if (!editor.hasClass("editormd")) {
                 editor.addClass("editormd")
             }
@@ -452,7 +452,7 @@
                     typeof settings.height === "number"
                         ? settings.height + "px"
                         : settings.height
-            })
+            });
             if (settings.autoHeight) {
                 editor.css({
                     height: "auto",
@@ -461,14 +461,14 @@
             }
             var markdownTextarea = (this.markdownTextarea = editor.children(
                 "textarea"
-            ))
+            ));
             if (markdownTextarea.length < 1) {
-                editor.append("<textarea></textarea>")
+                editor.append("<textarea></textarea>");
                 markdownTextarea = this.markdownTextarea = editor.children("textarea")
             }
             markdownTextarea
                 .addClass(classNames.textarea.markdown)
-                .attr("placeholder", settings.placeholder)
+                .attr("placeholder", settings.placeholder);
             if (
                 typeof markdownTextarea.attr("name") === "undefined" ||
                 markdownTextarea.attr("name") === ""
@@ -500,24 +500,24 @@
                 classPrefix +
                 'container-mask" style="display:block;"></div>',
                 '<div class="' + classPrefix + 'mask"></div>'
-            ].join("\n")
-            editor.append(appendElements).addClass(classPrefix + "vertical")
+            ].join("\n");
+            editor.append(appendElements).addClass(classPrefix + "vertical");
             if (settings.theme !== "") {
                 editor.addClass(classPrefix + "theme-" + settings.theme)
             }
-            this.mask = editor.children("." + classPrefix + "mask")
-            this.containerMask = editor.children("." + classPrefix + "container-mask")
+            this.mask = editor.children("." + classPrefix + "mask");
+            this.containerMask = editor.children("." + classPrefix + "container-mask");
             if (settings.markdown !== "") {
                 markdownTextarea.val(settings.markdown)
             }
             if (settings.appendMarkdown !== "") {
                 markdownTextarea.val(markdownTextarea.val() + settings.appendMarkdown)
             }
-            this.htmlTextarea = editor.children("." + classNames.textarea.html)
-            this.preview = editor.children("." + classPrefix + "preview")
+            this.htmlTextarea = editor.children("." + classNames.textarea.html);
+            this.preview = editor.children("." + classPrefix + "preview");
             this.previewContainer = this.preview.children(
                 "." + classPrefix + "preview-container"
-            )
+            );
             if (settings.previewTheme !== "") {
                 this.preview.addClass(
                     classPrefix + "preview-theme-" + settings.previewTheme
@@ -528,7 +528,7 @@
                     editormd.$katex = katex
                 }
                 if (settings.searchReplace && !settings.readOnly) {
-                    editormd.loadCSS(settings.path + "codemirror/addon/dialog/dialog")
+                    editormd.loadCSS(settings.path + "codemirror/addon/dialog/dialog");
                     editormd.loadCSS(
                         settings.path + "codemirror/addon/search/matchesonscrollbar"
                     )
@@ -562,12 +562,12 @@
          */
 
         loadQueues: function () {
-            var _this = this
-            var settings = this.settings
-            var loadPath = settings.path
+            var _this = this;
+            var settings = this.settings;
+            var loadPath = settings.path;
             var loadFlowChartOrSequenceDiagram = function () {
                 if (editormd.isIE8) {
-                    _this.loadedDisplay()
+                    _this.loadedDisplay();
                     return
                 }
                 if (settings.flowChart || settings.sequenceDiagram) {
@@ -609,11 +609,11 @@
                 } else {
                     _this.loadedDisplay()
                 }
-            }
+            };
 
-            editormd.loadCSS(loadPath + "codemirror/codemirror.min")
+            editormd.loadCSS(loadPath + "codemirror/codemirror.min");
             if (settings.searchReplace && !settings.readOnly) {
-                editormd.loadCSS(loadPath + "codemirror/addon/dialog/dialog")
+                editormd.loadCSS(loadPath + "codemirror/addon/dialog/dialog");
                 editormd.loadCSS(
                     loadPath + "codemirror/addon/search/matchesonscrollbar"
                 )
@@ -622,17 +622,17 @@
                 editormd.loadCSS(loadPath + "codemirror/addon/fold/foldgutter")
             }
             editormd.loadScript(loadPath + "codemirror/codemirror.min", function () {
-                editormd.$CodeMirror = CodeMirror
+                editormd.$CodeMirror = CodeMirror;
                 editormd.loadScript(loadPath + "codemirror/modes.min", function () {
                     editormd.loadScript(loadPath + "codemirror/addons.min", function () {
-                        _this.setCodeMirror()
+                        _this.setCodeMirror();
                         if (settings.mode !== "gfm" && settings.mode !== "markdown") {
-                            _this.loadedDisplay()
+                            _this.loadedDisplay();
                             return false
                         }
-                        _this.setToolbar()
+                        _this.setToolbar();
                         editormd.loadScript(loadPath + "marked.min", function () {
-                            editormd.$marked = marked
+                            editormd.$marked = marked;
 
                             if (settings.previewCodeHighlight) {
                                 editormd.loadScript(loadPath + "prettify.min", function () {
@@ -644,7 +644,7 @@
                         })
                     })
                 })
-            })
+            });
             return this
         },
 
@@ -656,11 +656,11 @@
          */
 
         setTheme: function (theme) {
-            var editor = this.editor
-            var oldTheme = this.settings.theme
-            var themePrefix = this.classPrefix + "theme-"
-            editor.removeClass(themePrefix + oldTheme).addClass(themePrefix + theme)
-            this.settings.theme = theme
+            var editor = this.editor;
+            var oldTheme = this.settings.theme;
+            var themePrefix = this.classPrefix + "theme-";
+            editor.removeClass(themePrefix + oldTheme).addClass(themePrefix + theme);
+            this.settings.theme = theme;
             return this
         },
 
@@ -672,14 +672,14 @@
          */
 
         setEditorTheme: function (theme) {
-            var settings = this.settings
-            settings.editorTheme = theme
+            var settings = this.settings;
+            settings.editorTheme = theme;
             if (theme !== "default") {
                 editormd.loadCSS(
                     settings.path + "codemirror/theme/" + settings.editorTheme
                 )
             }
-            this.cm.setOption("theme", theme)
+            this.cm.setOption("theme", theme);
             return this
         },
 
@@ -691,7 +691,7 @@
          */
 
         setCodeMirrorTheme: function (theme) {
-            this.setEditorTheme(theme)
+            this.setEditorTheme(theme);
             return this
         },
 
@@ -703,11 +703,11 @@
          */
 
         setPreviewTheme: function (theme) {
-            var preview = this.preview
-            var oldTheme = this.settings.previewTheme
-            var themePrefix = this.classPrefix + "preview-theme-"
-            preview.removeClass(themePrefix + oldTheme).addClass(themePrefix + theme)
-            this.settings.previewTheme = theme
+            var preview = this.preview;
+            var oldTheme = this.settings.previewTheme;
+            var themePrefix = this.classPrefix + "preview-theme-";
+            preview.removeClass(themePrefix + oldTheme).addClass(themePrefix + theme);
+            this.settings.previewTheme = theme;
             return this
         },
 
@@ -719,8 +719,8 @@
          */
 
         setCodeMirror: function () {
-            var settings = this.settings
-            var editor = this.editor
+            var settings = this.settings;
+            var editor = this.editor;
             if (settings.editorTheme !== "default") {
                 editormd.loadCSS(
                     settings.path + "codemirror/theme/" + settings.editorTheme
@@ -756,13 +756,13 @@
                         showToken:
                             settings.matchWordHighlight === "onselected" ? false : /\w/
                     }
-            }
+            };
 
             this.codeEditor = this.cm = editormd.$CodeMirror.fromTextArea(
                 this.markdownTextarea[0],
                 codeMirrorConfig
-            )
-            this.codeMirror = this.cmElement = editor.children(".CodeMirror")
+            );
+            this.codeMirror = this.cmElement = editor.children(".CodeMirror");
 
             if (settings.value !== "") {
                 this.cm.setValue(settings.value)
@@ -771,21 +771,21 @@
             this.codeMirror.css({
                 fontSize: settings.fontSize,
                 width: !settings.watch ? "100%" : "50%"
-            })
+            });
 
             if (settings.autoHeight) {
                 this.codeMirror.css({
                     height: "auto",
                     minHeight: settings.minHeight,
                     maxHeight: settings.maxHeight
-                })
+                });
                 this.codeMirror.find(".CodeMirror-gutters").css({
                     minHeight: settings.minHeight
-                })
+                });
                 this.codeMirror.find(".CodeMirror-scroll").css({
                     minHeight: settings.minHeight,
                     maxHeight: settings.maxHeight
-                })
+                });
                 this.cm.setOption("viewportMargin", Infinity)
             }
 
@@ -815,7 +815,7 @@
          */
 
         setCodeMirrorOption: function (key, value) {
-            this.cm.setOption(key, value)
+            this.cm.setOption(key, value);
 
             return this
         },
@@ -828,7 +828,7 @@
          */
 
         addKeyMap: function (map, bottom) {
-            this.cm.addKeyMap(map, bottom)
+            this.cm.addKeyMap(map, bottom);
 
             return this
         },
@@ -841,7 +841,7 @@
          */
 
         removeKeyMap: function (map) {
-            this.cm.removeKeyMap(map)
+            this.cm.removeKeyMap(map);
 
             return this
         },
@@ -855,14 +855,14 @@
          */
 
         gotoLine: function (line) {
-            var settings = this.settings
+            var settings = this.settings;
             if (!settings.gotoLine) {
                 return this
             }
-            var cm = this.cm
-            var editor = this.editor
-            var count = cm.lineCount()
-            var preview = this.preview
+            var cm = this.cm;
+            var editor = this.editor;
+            var count = cm.lineCount();
+            var preview = this.preview;
             if (typeof line === "string") {
                 if (line === "last") {
                     line = count
@@ -872,24 +872,24 @@
                 }
             }
             if (typeof line !== "number") {
-                alert("Error: The line number must be an integer.")
+                alert("Error: The line number must be an integer.");
                 return this
             }
-            line = parseInt(line) - 1
+            line = parseInt(line) - 1;
             if (line > count) {
-                alert("Error: The line number range 1-" + count)
+                alert("Error: The line number range 1-" + count);
                 return this
             }
-            cm.setCursor({line: line, ch: 0})
-            var scrollInfo = cm.getScrollInfo()
-            var clientHeight = scrollInfo.clientHeight
-            var coords = cm.charCoords({line: line, ch: 0}, "local")
-            cm.scrollTo(null, (coords.top + coords.bottom - clientHeight) / 2)
+            cm.setCursor({line: line, ch: 0});
+            var scrollInfo = cm.getScrollInfo();
+            var clientHeight = scrollInfo.clientHeight;
+            var coords = cm.charCoords({line: line, ch: 0}, "local");
+            cm.scrollTo(null, (coords.top + coords.bottom - clientHeight) / 2);
             if (settings.watch) {
-                var cmScroll = this.codeMirror.find(".CodeMirror-scroll")[0]
-                var height = $(cmScroll).height()
-                var scrollTop = cmScroll.scrollTop
-                var percent = scrollTop / cmScroll.scrollHeight
+                var cmScroll = this.codeMirror.find(".CodeMirror-scroll")[0];
+                var height = $(cmScroll).height();
+                var scrollTop = cmScroll.scrollTop;
+                var percent = scrollTop / cmScroll.scrollHeight;
                 if (scrollTop === 0) {
                     preview.scrollTop(0)
                 } else if (scrollTop + height >= cmScroll.scrollHeight - 16) {
@@ -898,7 +898,7 @@
                     preview.scrollTop(preview[0].scrollHeight * percent)
                 }
             }
-            cm.focus()
+            cm.focus();
             return this
         },
 
@@ -938,7 +938,7 @@
             if (typeof value !== "undefined" && typeof value === "function") {
                 value = $.proxy(value, this)
             }
-            this[key] = value
+            this[key] = value;
             return this
         },
 
@@ -952,15 +952,15 @@
          */
 
         config: function (key, value) {
-            var settings = this.settings
+            var settings = this.settings;
             if (typeof key === "object") {
                 settings = $.extend(true, settings, key)
             }
             if (typeof key === "string") {
                 settings[key] = value
             }
-            this.settings = settings
-            this.recreate()
+            this.settings = settings;
+            this.recreate();
             return this
         },
 
@@ -974,7 +974,7 @@
          */
 
         on: function (eventType, callback) {
-            var settings = this.settings
+            var settings = this.settings;
             if (typeof settings["on" + eventType] !== "undefined") {
                 settings["on" + eventType] = $.proxy(callback, this)
             }
@@ -990,7 +990,7 @@
          */
 
         off: function (eventType) {
-            var settings = this.settings
+            var settings = this.settings;
             if (typeof settings["on" + eventType] !== "undefined") {
                 settings["on" + eventType] = function () {
                 }
@@ -1007,7 +1007,7 @@
          */
 
         showToolbar: function (callback) {
-            var settings = this.settings
+            var settings = this.settings;
             if (settings.readOnly) {
                 return this
             }
@@ -1018,11 +1018,11 @@
             ) {
                 this.setToolbar()
             }
-            settings.toolbar = true
-            this.toolbar.show()
-            this.resize()
+            settings.toolbar = true;
+            this.toolbar.show();
+            this.resize();
             $.proxy(callback || function () {
-            }, this)()
+            }, this)();
             return this
         },
 
@@ -1035,12 +1035,12 @@
          */
 
         hideToolbar: function (callback) {
-            var settings = this.settings
-            settings.toolbar = false
-            this.toolbar.hide()
-            this.resize()
+            var settings = this.settings;
+            settings.toolbar = false;
+            this.toolbar.hide();
+            this.resize();
             $.proxy(callback || function () {
-            }, this)()
+            }, this)();
             return this
         },
 
@@ -1052,16 +1052,16 @@
          */
 
         setToolbarAutoFixed: function (fixed) {
-            var state = this.state
-            var editor = this.editor
-            var toolbar = this.toolbar
-            var settings = this.settings
+            var state = this.state;
+            var editor = this.editor;
+            var toolbar = this.toolbar;
+            var settings = this.settings;
             if (typeof fixed !== "undefined") {
                 settings.toolbarAutoFixed = fixed
             }
             var autoFixedHandle = function () {
-                var $window = $(window)
-                var top = $window.scrollTop()
+                var $window = $(window);
+                var top = $window.scrollTop();
                 if (!settings.toolbarAutoFixed) {
                     return false
                 }
@@ -1078,7 +1078,7 @@
                         left: 0
                     })
                 }
-            }
+            };
             if (
                 !state.fullscreen &&
                 !state.preview &&
@@ -1098,16 +1098,16 @@
          */
 
         setToolbar: function () {
-            var settings = this.settings
+            var settings = this.settings;
             if (settings.readOnly) {
                 return this
             }
-            var editor = this.editor
-            var preview = this.preview
-            var classPrefix = this.classPrefix
+            var editor = this.editor;
+            var preview = this.preview;
+            var classPrefix = this.classPrefix;
             var toolbar = (this.toolbar = editor.children(
                 "." + classPrefix + "toolbar"
-            ))
+            ));
             if (settings.toolbar && toolbar.length < 1) {
                 var toolbarHTML =
                     '<div class="' +
@@ -1116,43 +1116,43 @@
                     classPrefix +
                     'toolbar-container"><ul class="' +
                     classPrefix +
-                    'menu"></ul></div></div>'
-                editor.append(toolbarHTML)
+                    'menu"></ul></div></div>';
+                editor.append(toolbarHTML);
                 toolbar = this.toolbar = editor.children("." + classPrefix + "toolbar")
             }
             if (!settings.toolbar) {
-                toolbar.hide()
+                toolbar.hide();
                 return this
             }
-            toolbar.show()
+            toolbar.show();
             var icons =
                 typeof settings.toolbarIcons === "function"
                     ? settings.toolbarIcons()
                     : typeof settings.toolbarIcons === "string"
                     ? editormd.toolbarModes[settings.toolbarIcons]
-                    : settings.toolbarIcons
+                    : settings.toolbarIcons;
             var toolbarMenu = toolbar.find("." + this.classPrefix + "menu"),
-                menu = ""
-            var pullRight = false
+                menu = "";
+            var pullRight = false;
             for (var i = 0, len = icons.length; i < len; i++) {
-                var name = icons[i]
+                var name = icons[i];
                 if (name === "||") {
                     pullRight = true
                 } else if (name === "|") {
                     menu += '<li class="divider" unselectable="on">|</li>'
                 } else {
-                    var isHeader = /h(\d)/.test(name)
-                    var index = name
+                    var isHeader = /h(\d)/.test(name);
+                    var index = name;
                     if (name === "watch" && !settings.watch) {
                         index = "unwatch"
                     }
-                    var title = settings.lang.toolbar[index]
-                    var iconTexts = settings.toolbarIconTexts[index]
-                    var iconClass = settings.toolbarIconsClass[index]
-                    title = typeof title === "undefined" ? "" : title
-                    iconTexts = typeof iconTexts === "undefined" ? "" : iconTexts
-                    iconClass = typeof iconClass === "undefined" ? "" : iconClass
-                    var menuItem = pullRight ? '<li class="pull-right">' : "<li>"
+                    var title = settings.lang.toolbar[index];
+                    var iconTexts = settings.toolbarIconTexts[index];
+                    var iconClass = settings.toolbarIconsClass[index];
+                    title = typeof title === "undefined" ? "" : title;
+                    iconTexts = typeof iconTexts === "undefined" ? "" : iconTexts;
+                    iconClass = typeof iconClass === "undefined" ? "" : iconClass;
+                    var menuItem = pullRight ? '<li class="pull-right">' : "<li>";
                     if (
                         typeof settings.toolbarCustomIcons[name] !== "undefined" &&
                         typeof settings.toolbarCustomIcons[name] !== "function"
@@ -1160,7 +1160,7 @@
                         menuItem += settings.toolbarCustomIcons[name]
                     } else {
                         menuItem +=
-                            '<a href="javascript:;" title="' + title + '" unselectable="on">'
+                            '<a href="javascript:;" title="' + title + '" unselectable="on">';
                         menuItem +=
                             '<i class="fa ' +
                             iconClass +
@@ -1170,22 +1170,22 @@
                             (isHeader
                                 ? name.toUpperCase()
                                 : iconClass === "" ? iconTexts : "") +
-                            "</i>"
+                            "</i>";
                         menuItem += "</a>"
                     }
-                    menuItem += "</li>"
+                    menuItem += "</li>";
                     menu = pullRight ? menuItem + menu : menu + menuItem
                 }
             }
-            toolbarMenu.html(menu)
+            toolbarMenu.html(menu);
             toolbarMenu
                 .find('[title="Lowercase"]')
-                .attr("title", settings.lang.toolbar.lowercase)
+                .attr("title", settings.lang.toolbar.lowercase);
             toolbarMenu
                 .find('[title="ucwords"]')
-                .attr("title", settings.lang.toolbar.ucwords)
-            this.setToolbarHandler()
-            this.setToolbarAutoFixed()
+                .attr("title", settings.lang.toolbar.ucwords);
+            this.setToolbarHandler();
+            this.setToolbarAutoFixed();
             return this
         },
 
@@ -1199,15 +1199,15 @@
          */
 
         dialogLockScreen: function () {
-            $.proxy(editormd.dialogLockScreen, this)()
+            $.proxy(editormd.dialogLockScreen, this)();
             return this
         },
         dialogShowMask: function (dialog) {
-            $.proxy(editormd.dialogShowMask, this)(dialog)
+            $.proxy(editormd.dialogShowMask, this)(dialog);
             return this
         },
         getToolbarHandles: function (name) {
-            var toolbarHandlers = (this.toolbarHandlers = editormd.toolbarHandlers)
+            var toolbarHandlers = (this.toolbarHandlers = editormd.toolbarHandlers);
             return name && typeof toolbarIconHandlers[name] !== "undefined"
                 ? toolbarHandlers[name]
                 : toolbarHandlers
@@ -1221,29 +1221,29 @@
          */
 
         setToolbarHandler: function () {
-            var _this = this
-            var settings = this.settings
+            var _this = this;
+            var settings = this.settings;
             if (!settings.toolbar || settings.readOnly) {
                 return this
             }
-            var toolbar = this.toolbar
-            var cm = this.cm
-            var classPrefix = this.classPrefix
+            var toolbar = this.toolbar;
+            var cm = this.cm;
+            var classPrefix = this.classPrefix;
             var toolbarIcons = (this.toolbarIcons = toolbar.find(
                 "." + classPrefix + "menu > li > a"
-            ))
-            var toolbarIconHandlers = this.getToolbarHandles()
+            ));
+            var toolbarIconHandlers = this.getToolbarHandles();
             toolbarIcons.bind(editormd.mouseOrTouch("click", "touchend"), function (
                 event
             ) {
-                var icon = $(this).children(".fa")
-                var name = icon.attr("name")
-                var cursor = cm.getCursor()
-                var selection = cm.getSelection()
+                var icon = $(this).children(".fa");
+                var name = icon.attr("name");
+                var cursor = cm.getCursor();
+                var selection = cm.getSelection();
                 if (name === "") {
                     return
                 }
-                _this.activeIcon = icon
+                _this.activeIcon = icon;
                 if (typeof toolbarIconHandlers[name] !== "undefined") {
                     $.proxy(toolbarIconHandlers[name], _this)(cm)
                 } else {
@@ -1271,7 +1271,7 @@
                     cm.focus()
                 }
                 return false
-            })
+            });
 
             return this
         },
@@ -1296,9 +1296,9 @@
          */
 
         createInfoDialog: function () {
-            var _this = this
-            var editor = this.editor
-            var classPrefix = this.classPrefix
+            var _this = this;
+            var editor = this.editor;
+            var classPrefix = this.classPrefix;
             var infoDialogHTML = [
                 '<div class="' +
                 classPrefix +
@@ -1326,21 +1326,21 @@
                 classPrefix +
                 'dialog-close"></a>',
                 "</div>"
-            ].join("\n")
-            editor.append(infoDialogHTML)
+            ].join("\n");
+            editor.append(infoDialogHTML);
             var infoDialog = (this.infoDialog = editor.children(
                 "." + classPrefix + "dialog-info"
-            ))
+            ));
             infoDialog
                 .find("." + classPrefix + "dialog-close")
                 .bind(editormd.mouseOrTouch("click", "touchend"), function () {
                     _this.hideInfoDialog()
-                })
+                });
             infoDialog
                 .css("border", editormd.isIE8 ? "1px solid #ddd" : "")
                 .css("z-index", editormd.dialogZindex)
-                .show()
-            this.infoDialogPosition()
+                .show();
+            this.infoDialogPosition();
             return this
         },
 
@@ -1352,15 +1352,15 @@
          */
 
         infoDialogPosition: function () {
-            var infoDialog = this.infoDialog
+            var infoDialog = this.infoDialog;
             var _infoDialogPosition = function () {
                 infoDialog.css({
                     top: ($(window).height() - infoDialog.height()) / 2 + "px",
                     left: ($(window).width() - infoDialog.width()) / 2 + "px"
                 })
-            }
-            _infoDialogPosition()
-            $(window).resize(_infoDialogPosition)
+            };
+            _infoDialogPosition();
+            $(window).resize(_infoDialogPosition);
             return this
         },
 
@@ -1372,25 +1372,25 @@
          */
 
         showInfoDialog: function () {
-            $("html,body").css("overflow-x", "hidden")
-            var _this = this
-            var editor = this.editor
-            var settings = this.settings
+            $("html,body").css("overflow-x", "hidden");
+            var _this = this;
+            var editor = this.editor;
+            var settings = this.settings;
             var infoDialog = (this.infoDialog = editor.children(
                 "." + this.classPrefix + "dialog-info"
-            ))
+            ));
             if (infoDialog.length < 1) {
                 this.createInfoDialog()
             }
-            this.lockScreen(true)
+            this.lockScreen(true);
             this.mask
                 .css({
                     opacity: settings.dialogMaskOpacity,
                     backgroundColor: settings.dialogMaskBgColor
                 })
-                .show()
-            infoDialog.css("z-index", editormd.dialogZindex).show()
-            this.infoDialogPosition()
+                .show();
+            infoDialog.css("z-index", editormd.dialogZindex).show();
+            this.infoDialogPosition();
             return this
         },
 
@@ -1402,10 +1402,10 @@
          */
 
         hideInfoDialog: function () {
-            $("html,body").css("overflow-x", "")
-            this.infoDialog.hide()
-            this.mask.hide()
-            this.lockScreen(false)
+            $("html,body").css("overflow-x", "");
+            this.infoDialog.hide();
+            this.mask.hide();
+            this.lockScreen(false);
             return this
         },
 
@@ -1418,8 +1418,8 @@
          */
 
         lockScreen: function (lock) {
-            editormd.lockScreen(lock)
-            this.resize()
+            editormd.lockScreen(lock);
+            this.resize();
             return this
         },
 
@@ -1431,21 +1431,21 @@
          */
 
         recreate: function () {
-            var _this = this
-            var editor = this.editor
-            var settings = this.settings
-            this.codeMirror.remove()
-            this.setCodeMirror()
+            var _this = this;
+            var editor = this.editor;
+            var settings = this.settings;
+            this.codeMirror.remove();
+            this.setCodeMirror();
             if (!settings.readOnly) {
                 if (editor.find(".editormd-dialog").length > 0) {
                     editor.find(".editormd-dialog").remove()
                 }
                 if (settings.toolbar) {
-                    this.getToolbarHandles()
+                    this.getToolbarHandles();
                     this.setToolbar()
                 }
             }
-            this.loadedDisplay(true)
+            this.loadedDisplay(true);
             return this
         },
 
@@ -1457,10 +1457,10 @@
          */
 
         previewCodeHighlight: function () {
-            var settings = this.settings
-            var previewContainer = this.previewContainer
+            var settings = this.settings;
+            var previewContainer = this.previewContainer;
             if (settings.previewCodeHighlight) {
-                previewContainer.find("pre").addClass("prettyprint linenums")
+                previewContainer.find("pre").addClass("prettyprint linenums");
                 if (typeof prettyPrint !== "undefined") {
                     prettyPrint()
                 }
@@ -1483,10 +1483,10 @@
             this.previewContainer
                 .find("." + editormd.classNames.tex)
                 .each(function () {
-                    var tex = $(this)
-                    editormd.$katex.render(tex.text(), tex[0])
+                    var tex = $(this);
+                    editormd.$katex.render(tex.text(), tex[0]);
                     tex.find(".katex").css("font-size", "1.6em")
-                })
+                });
             return this
         },
 
@@ -1498,9 +1498,9 @@
          */
 
         flowChartAndSequenceDiagramRender: function () {
-            var $this = this
-            var settings = this.settings
-            var previewContainer = this.previewContainer
+            var $this = this;
+            var settings = this.settings;
+            var previewContainer = this.previewContainer;
             if (editormd.isIE8) {
                 return this
             }
@@ -1516,18 +1516,18 @@
                     .find(".sequence-diagram")
                     .sequenceDiagram({theme: "simple"})
             }
-            var preview = $this.preview
-            var codeMirror = $this.codeMirror
-            var codeView = codeMirror.find(".CodeMirror-scroll")
-            var height = codeView.height()
-            var scrollTop = codeView.scrollTop()
-            var percent = scrollTop / codeView[0].scrollHeight
-            var tocHeight = 0
+            var preview = $this.preview;
+            var codeMirror = $this.codeMirror;
+            var codeView = codeMirror.find(".CodeMirror-scroll");
+            var height = codeView.height();
+            var scrollTop = codeView.scrollTop();
+            var percent = scrollTop / codeView[0].scrollHeight;
+            var tocHeight = 0;
             preview.find(".markdown-toc-list").each(function () {
                 tocHeight += $(this).height()
-            })
-            var tocMenuHeight = preview.find(".editormd-toc-menu").height()
-            tocMenuHeight = !tocMenuHeight ? 0 : tocMenuHeight
+            });
+            var tocMenuHeight = preview.find(".editormd-toc-menu").height();
+            tocMenuHeight = !tocMenuHeight ? 0 : tocMenuHeight;
             if (settings.syncScrolling) {
                 if (scrollTop === 0) {
                     preview.scrollTop(0)
@@ -1551,33 +1551,33 @@
          */
 
         registerKeyMaps: function (keyMap) {
-            var _this = this
-            var cm = this.cm
-            var settings = this.settings
-            var toolbarHandlers = editormd.toolbarHandlers
-            var disabledKeyMaps = settings.disabledKeyMaps
-            keyMap = keyMap || null
+            var _this = this;
+            var cm = this.cm;
+            var settings = this.settings;
+            var toolbarHandlers = editormd.toolbarHandlers;
+            var disabledKeyMaps = settings.disabledKeyMaps;
+            keyMap = keyMap || null;
             if (keyMap) {
                 for (var i in keyMap) {
                     if ($.inArray(i, disabledKeyMaps) < 0) {
-                        var map = {}
-                        map[i] = keyMap[i]
+                        var map = {};
+                        map[i] = keyMap[i];
                         cm.addKeyMap(keyMap)
                     }
                 }
             } else {
                 for (var k in editormd.keyMaps) {
-                    var _keyMap = editormd.keyMaps[k]
+                    var _keyMap = editormd.keyMaps[k];
                     var handle =
                         typeof _keyMap === "string"
                             ? $.proxy(toolbarHandlers[_keyMap], _this)
-                            : $.proxy(_keyMap, _this)
+                            : $.proxy(_keyMap, _this);
                     if (
                         $.inArray(k, ["F9", "F10", "F11"]) < 0 &&
                         $.inArray(k, disabledKeyMaps) < 0
                     ) {
-                        var _map = {}
-                        _map[k] = handle
+                        var _map = {};
+                        _map[k] = handle;
                         cm.addKeyMap(_map)
                     }
                 }
@@ -1586,18 +1586,18 @@
                         "120": "F9",
                         "121": "F10",
                         "122": "F11"
-                    }
+                    };
                     if ($.inArray(keymaps[event.keyCode], disabledKeyMaps) < 0) {
                         switch (event.keyCode) {
                             case 120:
-                                $.proxy(toolbarHandlers.watch, _this)()
-                                return false
+                                $.proxy(toolbarHandlers.watch, _this)();
+                                return false;
                             case 121:
-                                $.proxy(toolbarHandlers.preview, _this)()
-                                return false
+                                $.proxy(toolbarHandlers.preview, _this)();
+                                return false;
                             case 122:
-                                $.proxy(toolbarHandlers.fullscreen, _this)()
-                                return false
+                                $.proxy(toolbarHandlers.fullscreen, _this)();
+                                return false;
                             default:
                                 break
                         }
@@ -1613,11 +1613,11 @@
          */
 
         bindScrollEvent: function () {
-            var _this = this
-            var preview = this.preview
-            var settings = this.settings
-            var codeMirror = this.codeMirror
-            var mouseOrTouch = editormd.mouseOrTouch
+            var _this = this;
+            var preview = this.preview;
+            var settings = this.settings;
+            var codeMirror = this.codeMirror;
+            var mouseOrTouch = editormd.mouseOrTouch;
             if (!settings.syncScrolling) {
                 return this
             }
@@ -1625,15 +1625,15 @@
                 codeMirror
                     .find(".CodeMirror-scroll")
                     .bind(mouseOrTouch("scroll", "touchmove"), function (event) {
-                        var height = $(this).height()
-                        var scrollTop = $(this).scrollTop()
-                        var percent = scrollTop / $(this)[0].scrollHeight
-                        var tocHeight = 0
+                        var height = $(this).height();
+                        var scrollTop = $(this).scrollTop();
+                        var percent = scrollTop / $(this)[0].scrollHeight;
+                        var tocHeight = 0;
                         preview.find(".markdown-toc-list").each(function () {
                             tocHeight += $(this).height()
-                        })
-                        var tocMenuHeight = preview.find(".editormd-toc-menu").height()
-                        tocMenuHeight = !tocMenuHeight ? 0 : tocMenuHeight
+                        });
+                        var tocMenuHeight = preview.find(".editormd-toc-menu").height();
+                        tocMenuHeight = !tocMenuHeight ? 0 : tocMenuHeight;
                         if (scrollTop === 0) {
                             preview.scrollTop(0)
                         } else if (scrollTop + height >= $(this)[0].scrollHeight - 16) {
@@ -1645,18 +1645,18 @@
                         }
                         $.proxy(settings.onscroll, _this)(event)
                     })
-            }
+            };
             var cmUnbindScroll = function () {
                 codeMirror
                     .find(".CodeMirror-scroll")
                     .unbind(mouseOrTouch("scroll", "touchmove"))
-            }
+            };
             var previewBindScroll = function () {
                 preview.bind(mouseOrTouch("scroll", "touchmove"), function (event) {
-                    var height = $(this).height()
-                    var scrollTop = $(this).scrollTop()
-                    var percent = scrollTop / $(this)[0].scrollHeight
-                    var codeView = codeMirror.find(".CodeMirror-scroll")
+                    var height = $(this).height();
+                    var scrollTop = $(this).scrollTop();
+                    var percent = scrollTop / $(this)[0].scrollHeight;
+                    var codeView = codeMirror.find(".CodeMirror-scroll");
                     if (scrollTop === 0) {
                         codeView.scrollTop(0)
                     } else if (scrollTop + height >= $(this)[0].scrollHeight) {
@@ -1666,17 +1666,17 @@
                     }
                     $.proxy(settings.onpreviewscroll, _this)(event)
                 })
-            }
+            };
 
             var previewUnbindScroll = function () {
                 preview.unbind(mouseOrTouch("scroll", "touchmove"))
-            }
+            };
             codeMirror.bind({
                 mouseover: cmBindScroll,
                 mouseout: cmUnbindScroll,
                 touchstart: cmBindScroll,
                 touchend: cmUnbindScroll
-            })
+            });
             if (settings.syncScrolling === "single") {
                 return this
             }
@@ -1685,14 +1685,14 @@
                 mouseout: previewUnbindScroll,
                 touchstart: previewBindScroll,
                 touchend: previewUnbindScroll
-            })
+            });
             return this
         },
 
         bindChangeEvent: function () {
-            var _this = this
-            var cm = this.cm
-            var settings = this.settings
+            var _this = this;
+            var cm = this.cm;
+            var settings = this.settings;
 
             // if (!settings.syncScrolling) {
             //     return this;
@@ -1706,11 +1706,11 @@
                     )
                 }
                 timer = setTimeout(function () {
-                    clearTimeout(timer)
-                    _this.save()
+                    clearTimeout(timer);
+                    _this.save();
                     timer = null
                 }, settings.delay)
-            })
+            });
             return this
         },
 
@@ -1723,27 +1723,27 @@
          */
 
         loadedDisplay: function (recreate) {
-            recreate = recreate || false
-            var _this = this
-            var editor = this.editor
-            var preview = this.preview
-            var settings = this.settings
-            this.containerMask.hide()
-            this.save()
+            recreate = recreate || false;
+            var _this = this;
+            var editor = this.editor;
+            var preview = this.preview;
+            var settings = this.settings;
+            this.containerMask.hide();
+            this.save();
             if (settings.watch) {
                 preview.show()
             }
-            editor.data("oldWidth", editor.width()).data("oldHeight", editor.height()) // 为了兼容Zepto
-            this.resize()
-            this.registerKeyMaps()
+            editor.data("oldWidth", editor.width()).data("oldHeight", editor.height()); // 为了兼容Zepto
+            this.resize();
+            this.registerKeyMaps();
             $(window).resize(function () {
                 _this.resize()
-            })
-            this.bindScrollEvent().bindChangeEvent()
+            });
+            this.bindScrollEvent().bindChangeEvent();
             if (!recreate) {
                 $.proxy(settings.onload, this)()
             }
-            this.state.loaded = true
+            this.state.loaded = true;
             return this
         },
 
@@ -1756,8 +1756,8 @@
          */
 
         width: function (width) {
-            this.editor.css("width", typeof width === "number" ? width + "px" : width)
-            this.resize()
+            this.editor.css("width", typeof width === "number" ? width + "px" : width);
+            this.resize();
             return this
         },
 
@@ -1773,8 +1773,8 @@
             this.editor.css(
                 "height",
                 typeof height === "number" ? height + "px" : height
-            )
-            this.resize()
+            );
+            this.resize();
             return this
         },
 
@@ -1788,14 +1788,14 @@
          */
 
         resize: function (width, height) {
-            width = width || null
-            height = height || null
-            var state = this.state
-            var editor = this.editor
-            var preview = this.preview
-            var toolbar = this.toolbar
-            var settings = this.settings
-            var codeMirror = this.codeMirror
+            width = width || null;
+            height = height || null;
+            var state = this.state;
+            var editor = this.editor;
+            var preview = this.preview;
+            var toolbar = this.toolbar;
+            var settings = this.settings;
+            var codeMirror = this.codeMirror;
             if (width) {
                 editor.css("width", typeof width === "number" ? width + "px" : width)
             }
@@ -1803,7 +1803,7 @@
                 editor.css({
                     height: "auto",
                     minHeight: settings.minHeight
-                })
+                });
                 codeMirror.css({
                     height: "auto",
                     minHeight: settings.minHeight,
@@ -1828,12 +1828,12 @@
                 }
             }
             if (settings.watch) {
-                codeMirror.width(editor.width() / 2)
-                preview.width(!state.preview ? editor.width() / 2 : editor.width())
+                codeMirror.width(editor.width() / 2);
+                preview.width(!state.preview ? editor.width() / 2 : editor.width());
                 this.previewContainer.css(
                     "padding",
                     settings.autoHeight ? "20px 20px 50px 40px" : "20px"
-                )
+                );
                 if (settings.toolbar && !settings.readOnly) {
                     preview.css("top", toolbar.height() + 1)
                 } else {
@@ -1845,11 +1845,11 @@
                     var previewHeight =
                         settings.toolbar && !settings.readOnly
                             ? editor.height() - toolbar.height()
-                            : editor.height()
+                            : editor.height();
                     preview.height(previewHeight)
                 }
             } else {
-                codeMirror.width(editor.width())
+                codeMirror.width(editor.width());
                 preview.hide()
             }
             if (state.loaded) {
@@ -1869,18 +1869,18 @@
             if (timer === null) {
                 return this
             }
-            var _this = this
-            var state = this.state
-            var settings = this.settings
-            var cm = this.cm
-            var cmValue = cm.getValue()
-            var previewContainer = this.previewContainer
+            var _this = this;
+            var state = this.state;
+            var settings = this.settings;
+            var cm = this.cm;
+            var cmValue = cm.getValue();
+            var previewContainer = this.previewContainer;
             if (settings.mode !== "gfm" && settings.mode !== "markdown") {
-                this.markdownTextarea.val(cmValue)
+                this.markdownTextarea.val(cmValue);
                 return this
             }
-            var marked = editormd.$marked
-            var markdownToC = (this.markdownToC = [])
+            var marked = editormd.$marked;
+            var markdownToC = (this.markdownToC = []);
             var rendererOptions = (this.markedRendererOptions = {
                 toc: settings.toc,
                 tocm: settings.tocm,
@@ -1894,7 +1894,7 @@
                 flowChart: settings.flowChart,
                 sequenceDiagram: settings.sequenceDiagram,
                 previewCodeHighlight: settings.previewCodeHighlight
-            })
+            });
             var markedOptions = (this.markedOptions = {
                 renderer: editormd.markedRenderer(markdownToC, rendererOptions),
                 gfm: true,
@@ -1904,31 +1904,31 @@
                 sanitize: settings.htmlDecode ? false : true, // 关闭忽略HTML标签，即开启识别HTML标签，默认为false
                 smartLists: true,
                 smartypants: true
-            })
-            marked.setOptions(markedOptions)
-            var newMarkdownDoc = editormd.$marked(cmValue, markedOptions)
+            });
+            marked.setOptions(markedOptions);
+            var newMarkdownDoc = editormd.$marked(cmValue, markedOptions);
             newMarkdownDoc = editormd.filterHTMLTags(
                 newMarkdownDoc,
                 settings.htmlDecode
-            )
-            this.markdownTextarea.text(cmValue)
-            cm.save()
+            );
+            this.markdownTextarea.text(cmValue);
+            cm.save();
             if (settings.saveHTMLToTextarea) {
                 this.htmlTextarea.text(newMarkdownDoc)
             }
             if (settings.watch || (!settings.watch && state.preview)) {
-                previewContainer.html(newMarkdownDoc)
-                this.previewCodeHighlight()
+                previewContainer.html(newMarkdownDoc);
+                this.previewCodeHighlight();
                 if (settings.toc) {
                     var tocContainer =
                         settings.tocContainer === ""
                             ? previewContainer
-                            : $(settings.tocContainer)
-                    var tocMenu = tocContainer.find("." + this.classPrefix + "toc-menu")
+                            : $(settings.tocContainer);
+                    var tocMenu = tocContainer.find("." + this.classPrefix + "toc-menu");
                     tocContainer.attr(
                         "previewContainer",
                         settings.tocContainer === "" ? "true" : "false"
-                    )
+                    );
                     if (settings.tocContainer !== "" && tocMenu.length > 0) {
                         tocMenu.remove()
                     }
@@ -1937,7 +1937,7 @@
                         tocContainer,
                         settings.tocDropdown,
                         settings.tocStartLevel
-                    )
+                    );
                     if (
                         settings.tocDropdown ||
                         tocContainer.find("." + this.classPrefix + "toc-menu").length > 0
@@ -1954,19 +1954,19 @@
                 if (settings.tex) {
                     if (!editormd.kaTeXLoaded && settings.autoLoadModules) {
                         editormd.loadKaTeX(function () {
-                            editormd.$katex = katex
-                            editormd.kaTeXLoaded = true
+                            editormd.$katex = katex;
+                            editormd.kaTeXLoaded = true;
                             _this.katexRender()
                         })
                     } else {
-                        editormd.$katex = katex
+                        editormd.$katex = katex;
                         this.katexRender()
                     }
                 }
                 if (settings.flowChart || settings.sequenceDiagram) {
                     flowchartTimer = setTimeout(function () {
-                        clearTimeout(flowchartTimer)
-                        _this.flowChartAndSequenceDiagramRender()
+                        clearTimeout(flowchartTimer);
+                        _this.flowChartAndSequenceDiagramRender();
                         flowchartTimer = null
                     }, 10)
                 }
@@ -1985,7 +1985,7 @@
          */
 
         focus: function () {
-            this.cm.focus()
+            this.cm.focus();
             return this
         },
 
@@ -1998,7 +1998,7 @@
          */
 
         setCursor: function (cursor) {
-            this.cm.setCursor(cursor)
+            this.cm.setCursor(cursor);
             return this
         },
 
@@ -2023,7 +2023,7 @@
          */
 
         setSelection: function (from, to) {
-            this.cm.setSelection(from, to)
+            this.cm.setSelection(from, to);
             return this
         },
 
@@ -2047,7 +2047,7 @@
          */
 
         setSelections: function (ranges) {
-            this.cm.setSelections(ranges)
+            this.cm.setSelections(ranges);
             return this
         },
 
@@ -2071,7 +2071,7 @@
          */
 
         replaceSelection: function (value) {
-            this.cm.replaceSelection(value)
+            this.cm.replaceSelection(value);
             return this
         },
 
@@ -2087,7 +2087,7 @@
          */
 
         insertValue: function (value) {
-            this.replaceSelection(value)
+            this.replaceSelection(value);
             return this
         },
 
@@ -2100,9 +2100,9 @@
          */
 
         appendMarkdown: function (md) {
-            var settings = this.settings
-            var cm = this.cm
-            cm.setValue(cm.getValue() + md)
+            var settings = this.settings;
+            var cm = this.cm;
+            cm.setValue(cm.getValue() + md);
             return this
         },
 
@@ -2115,7 +2115,7 @@
          */
 
         setMarkdown: function (md) {
-            this.cm.setValue(md || this.settings.markdown)
+            this.cm.setValue(md || this.settings.markdown);
             return this
         },
 
@@ -2150,7 +2150,7 @@
          */
 
         setValue: function (value) {
-            this.cm.setValue(value)
+            this.cm.setValue(value);
             return this
         },
 
@@ -2162,7 +2162,7 @@
          */
 
         clear: function () {
-            this.cm.setValue("")
+            this.cm.setValue("");
             return this
         },
 
@@ -2175,7 +2175,7 @@
 
         getHTML: function () {
             if (!this.settings.saveHTMLToTextarea) {
-                alert("Error: settings.saveHTMLToTextarea == false")
+                alert("Error: settings.saveHTMLToTextarea == false");
                 return false
             }
             return this.htmlTextarea.val()
@@ -2201,7 +2201,7 @@
 
         getPreviewedHTML: function () {
             if (!this.settings.watch) {
-                alert("Error: settings.watch == false")
+                alert("Error: settings.watch == false");
                 return false
             }
             return this.previewContainer.html()
@@ -2215,29 +2215,29 @@
          */
 
         watch: function (callback) {
-            var settings = this.settings
+            var settings = this.settings;
             if ($.inArray(settings.mode, ["gfm", "markdown"]) < 0) {
                 return this
             }
-            this.state.watching = settings.watch = true
-            this.preview.show()
+            this.state.watching = settings.watch = true;
+            this.preview.show();
             if (this.toolbar) {
-                var watchIcon = settings.toolbarIconsClass.watch
-                var unWatchIcon = settings.toolbarIconsClass.unwatch
-                var icon = this.toolbar.find(".fa[name=watch]")
-                icon.parent().attr("title", settings.lang.toolbar.watch)
+                var watchIcon = settings.toolbarIconsClass.watch;
+                var unWatchIcon = settings.toolbarIconsClass.unwatch;
+                var icon = this.toolbar.find(".fa[name=watch]");
+                icon.parent().attr("title", settings.lang.toolbar.watch);
                 icon.removeClass(unWatchIcon).addClass(watchIcon)
             }
             this.codeMirror
                 .css("border-right", "1px solid #ddd")
-                .width(this.editor.width() / 2)
-            timer = 0
-            this.save().resize()
+                .width(this.editor.width() / 2);
+            timer = 0;
+            this.save().resize();
             if (!settings.onwatch) {
                 settings.onwatch = callback || function () {
                 }
             }
-            $.proxy(settings.onwatch, this)()
+            $.proxy(settings.onwatch, this)();
             return this
         },
 
@@ -2249,23 +2249,23 @@
          */
 
         unwatch: function (callback) {
-            var settings = this.settings
-            this.state.watching = settings.watch = false
-            this.preview.hide()
+            var settings = this.settings;
+            this.state.watching = settings.watch = false;
+            this.preview.hide();
             if (this.toolbar) {
-                var watchIcon = settings.toolbarIconsClass.watch
-                var unWatchIcon = settings.toolbarIconsClass.unwatch
-                var icon = this.toolbar.find(".fa[name=watch]")
-                icon.parent().attr("title", settings.lang.toolbar.unwatch)
+                var watchIcon = settings.toolbarIconsClass.watch;
+                var unWatchIcon = settings.toolbarIconsClass.unwatch;
+                var icon = this.toolbar.find(".fa[name=watch]");
+                icon.parent().attr("title", settings.lang.toolbar.unwatch);
                 icon.removeClass(watchIcon).addClass(unWatchIcon)
             }
-            this.codeMirror.css("border-right", "none").width(this.editor.width())
-            this.resize()
+            this.codeMirror.css("border-right", "none").width(this.editor.width());
+            this.resize();
             if (!settings.onunwatch) {
                 settings.onunwatch = callback || function () {
                 }
             }
-            $.proxy(settings.onunwatch, this)()
+            $.proxy(settings.onunwatch, this)();
             return this
         },
 
@@ -2279,11 +2279,11 @@
 
         show: function (callback) {
             callback = callback || function () {
-            }
-            var _this = this
+            };
+            var _this = this;
             this.editor.show(0, function () {
                 $.proxy(callback, _this)()
-            })
+            });
             return this
         },
 
@@ -2297,11 +2297,11 @@
 
         hide: function (callback) {
             callback = callback || function () {
-            }
-            var _this = this
+            };
+            var _this = this;
             this.editor.hide(0, function () {
                 $.proxy(callback, _this)()
-            })
+            });
             return this
         },
 
@@ -2313,29 +2313,29 @@
          */
 
         previewing: function () {
-            var _this = this
-            var editor = this.editor
-            var preview = this.preview
-            var toolbar = this.toolbar
-            var settings = this.settings
-            var codeMirror = this.codeMirror
-            var previewContainer = this.previewContainer
+            var _this = this;
+            var editor = this.editor;
+            var preview = this.preview;
+            var toolbar = this.toolbar;
+            var settings = this.settings;
+            var codeMirror = this.codeMirror;
+            var previewContainer = this.previewContainer;
             if ($.inArray(settings.mode, ["gfm", "markdown"]) < 0) {
                 return this
             }
             if (settings.toolbar && toolbar) {
-                toolbar.toggle()
+                toolbar.toggle();
                 toolbar.find(".fa[name=preview]").toggleClass("active")
             }
-            codeMirror.toggle()
+            codeMirror.toggle();
             var escHandle = function (event) {
                 if (event.shiftKey && event.keyCode === 27) {
                     _this.previewed()
                 }
-            }
+            };
             if (codeMirror.css("display") === "none") {
                 // 为了兼容Zepto，而不使用codeMirror.is(":hidden")
-                this.state.preview = true
+                this.state.preview = true;
                 if (this.state.fullscreen) {
                     preview.css("background", "#fff")
                 }
@@ -2344,13 +2344,13 @@
                     .show()
                     .bind(editormd.mouseOrTouch("click", "touchend"), function () {
                         _this.previewed()
-                    })
+                    });
                 if (!settings.watch) {
                     this.save()
                 } else {
                     previewContainer.css("padding", "")
                 }
-                previewContainer.addClass(this.classPrefix + "preview-active")
+                previewContainer.addClass(this.classPrefix + "preview-active");
                 preview.show().css({
                     position: "",
                     top: 0,
@@ -2359,13 +2359,13 @@
                         settings.autoHeight && !this.state.fullscreen
                             ? "auto"
                             : editor.height()
-                })
+                });
                 if (this.state.loaded) {
                     $.proxy(settings.onpreviewing, this)()
                 }
                 $(window).bind("keyup", escHandle)
             } else {
-                $(window).unbind("keyup", escHandle)
+                $(window).unbind("keyup", escHandle);
                 this.previewed()
             }
         },
@@ -2378,22 +2378,22 @@
          */
 
         previewed: function () {
-            var editor = this.editor
-            var preview = this.preview
-            var toolbar = this.toolbar
-            var settings = this.settings
-            var previewContainer = this.previewContainer
+            var editor = this.editor;
+            var preview = this.preview;
+            var toolbar = this.toolbar;
+            var settings = this.settings;
+            var previewContainer = this.previewContainer;
             var previewCloseBtn = editor.find(
                 "." + this.classPrefix + "preview-close-btn"
-            )
-            this.state.preview = false
-            this.codeMirror.show()
+            );
+            this.state.preview = false;
+            this.codeMirror.show();
             if (settings.toolbar) {
                 toolbar.show()
             }
-            preview[settings.watch ? "show" : "hide"]()
-            previewCloseBtn.hide().unbind(editormd.mouseOrTouch("click", "touchend"))
-            previewContainer.removeClass(this.classPrefix + "preview-active")
+            preview[settings.watch ? "show" : "hide"]();
+            previewCloseBtn.hide().unbind(editormd.mouseOrTouch("click", "touchend"));
+            previewContainer.removeClass(this.classPrefix + "preview-active");
             if (settings.watch) {
                 previewContainer.css("padding", "20px")
             }
@@ -2406,7 +2406,7 @@
                         ? "auto"
                         : editor.height() - toolbar.height(),
                 top: settings.toolbar ? toolbar.height() : 0
-            })
+            });
             if (this.state.loaded) {
                 $.proxy(settings.onpreviewed, this)()
             }
@@ -2421,13 +2421,13 @@
          */
 
         fullscreen: function () {
-            var _this = this
-            var state = this.state
-            var editor = this.editor
-            var preview = this.preview
-            var toolbar = this.toolbar
-            var settings = this.settings
-            var fullscreenClass = this.classPrefix + "fullscreen"
+            var _this = this;
+            var state = this.state;
+            var editor = this.editor;
+            var preview = this.preview;
+            var toolbar = this.toolbar;
+            var settings = this.settings;
+            var fullscreenClass = this.classPrefix + "fullscreen";
             if (toolbar) {
                 toolbar
                     .find(".fa[name=fullscreen]")
@@ -2440,21 +2440,21 @@
                         _this.fullscreenExit()
                     }
                 }
-            }
+            };
             if (!editor.hasClass(fullscreenClass)) {
-                state.fullscreen = true
-                $("html,body").css("overflow", "hidden")
+                state.fullscreen = true;
+                $("html,body").css("overflow", "hidden");
                 editor
                     .css({
                         width: $(window).width(),
                         height: $(window).height()
                     })
-                    .addClass(fullscreenClass)
-                this.resize()
-                $.proxy(settings.onfullscreen, this)()
+                    .addClass(fullscreenClass);
+                this.resize();
+                $.proxy(settings.onfullscreen, this)();
                 $(window).bind("keyup", escHandle)
             } else {
-                $(window).unbind("keyup", escHandle)
+                $(window).unbind("keyup", escHandle);
                 this.fullscreenExit()
             }
             return this
@@ -2468,26 +2468,26 @@
          */
 
         fullscreenExit: function () {
-            var editor = this.editor
-            var settings = this.settings
-            var toolbar = this.toolbar
-            var fullscreenClass = this.classPrefix + "fullscreen"
-            this.state.fullscreen = false
+            var editor = this.editor;
+            var settings = this.settings;
+            var toolbar = this.toolbar;
+            var fullscreenClass = this.classPrefix + "fullscreen";
+            this.state.fullscreen = false;
             if (toolbar) {
                 toolbar
                     .find(".fa[name=fullscreen]")
                     .parent()
                     .removeClass("active")
             }
-            $("html,body").css("overflow", "")
+            $("html,body").css("overflow", "");
             editor
                 .css({
                     width: editor.data("oldWidth"),
                     height: editor.data("oldHeight")
                 })
-                .removeClass(fullscreenClass)
-            this.resize()
-            $.proxy(settings.onfullscreenExit, this)()
+                .removeClass(fullscreenClass);
+            this.resize();
+            $.proxy(settings.onfullscreenExit, this)();
             return this
         },
 
@@ -2501,25 +2501,25 @@
          */
 
         executePlugin: function (name, path) {
-            var _this = this
-            var cm = this.cm
-            var settings = this.settings
-            path = settings.pluginPath + path
+            var _this = this;
+            var cm = this.cm;
+            var settings = this.settings;
+            path = settings.pluginPath + path;
             if (typeof define === "function") {
                 if (typeof this[name] === "undefined") {
                     alert(
                         "Error: " +
                         name +
                         " plugin is not found, you are not load this plugin."
-                    )
+                    );
                     return this
                 }
-                this[name](cm)
+                this[name](cm);
                 return this
             }
             if ($.inArray(path, editormd.loadFiles.plugin) < 0) {
                 editormd.loadPlugin(path, function () {
-                    editormd.loadPlugins[name] = _this[name]
+                    editormd.loadPlugins[name] = _this[name];
                     _this[name](cm)
                 })
             } else {
@@ -2537,9 +2537,9 @@
          */
 
         search: function (command) {
-            var settings = this.settings
+            var settings = this.settings;
             if (!settings.searchReplace) {
-                alert("Error: settings.searchReplace == false")
+                alert("Error: settings.searchReplace == false");
                 return this
             }
             if (!settings.readOnly) {
@@ -2548,16 +2548,16 @@
             return this
         },
         searchReplace: function () {
-            this.search("replace")
+            this.search("replace");
             return this
         },
         searchReplaceAll: function () {
-            this.search("replaceAll")
+            this.search("replaceAll");
             return this
         }
-    }
+    };
 
-    editormd.fn.init.prototype = editormd.fn
+    editormd.fn.init.prototype = editormd.fn;
 
     /**
      * 锁屏
@@ -2567,12 +2567,12 @@
      */
 
     editormd.dialogLockScreen = function () {
-        var settings = this.settings || {dialogLockScreen: true}
+        var settings = this.settings || {dialogLockScreen: true};
         if (settings.dialogLockScreen) {
-            $("html,body").css("overflow", "hidden")
+            $("html,body").css("overflow", "hidden");
             this.resize()
         }
-    }
+    };
 
     /**
      * 显示透明背景层
@@ -2583,19 +2583,19 @@
      */
 
     editormd.dialogShowMask = function (dialog) {
-        var editor = this.editor
-        var settings = this.settings || {dialogShowMask: true}
+        var editor = this.editor;
+        var settings = this.settings || {dialogShowMask: true};
         dialog.css({
             top: ($(window).height() - dialog.height()) / 2 + "px",
             left: ($(window).width() - dialog.width()) / 2 + "px"
-        })
+        });
         if (settings.dialogShowMask) {
             editor
                 .children("." + this.classPrefix + "mask")
                 .css("z-index", parseInt(dialog.css("z-index")) - 1)
                 .show()
         }
-    }
+    };
 
     editormd.toolbarHandlers = {
         undo: function () {
@@ -2605,39 +2605,39 @@
             this.cm.redo()
         },
         bold: function () {
-            var cm = this.cm
-            var cursor = cm.getCursor()
-            var selection = cm.getSelection()
-            cm.replaceSelection("**" + selection + "**")
+            var cm = this.cm;
+            var cursor = cm.getCursor();
+            var selection = cm.getSelection();
+            cm.replaceSelection("**" + selection + "**");
             if (selection === "") {
                 cm.setCursor(cursor.line, cursor.ch + 2)
             }
         },
         del: function () {
-            var cm = this.cm
-            var cursor = cm.getCursor()
-            var selection = cm.getSelection()
-            cm.replaceSelection("~~" + selection + "~~")
+            var cm = this.cm;
+            var cursor = cm.getCursor();
+            var selection = cm.getSelection();
+            cm.replaceSelection("~~" + selection + "~~");
             if (selection === "") {
                 cm.setCursor(cursor.line, cursor.ch + 2)
             }
         },
         italic: function () {
-            var cm = this.cm
-            var cursor = cm.getCursor()
-            var selection = cm.getSelection()
-            cm.replaceSelection("*" + selection + "*")
+            var cm = this.cm;
+            var cursor = cm.getCursor();
+            var selection = cm.getSelection();
+            cm.replaceSelection("*" + selection + "*");
             if (selection === "") {
                 cm.setCursor(cursor.line, cursor.ch + 1)
             }
         },
         quote: function () {
-            var cm = this.cm
-            var cursor = cm.getCursor()
-            var selection = cm.getSelection()
+            var cm = this.cm;
+            var cursor = cm.getCursor();
+            var selection = cm.getSelection();
             if (cursor.ch !== 0) {
-                cm.setCursor(cursor.line, 0)
-                cm.replaceSelection("> " + selection)
+                cm.setCursor(cursor.line, 0);
+                cm.replaceSelection("> " + selection);
                 cm.setCursor(cursor.line, cursor.ch + 2)
             } else {
                 cm.replaceSelection("> " + selection)
@@ -2646,114 +2646,114 @@
             //cm.setCursor(cursor.line, (selection === "") ? cursor.ch + 2 : cursor.ch + selection.length + 2);
         },
         ucfirst: function () {
-            var cm = this.cm
-            var selection = cm.getSelection()
-            var selections = cm.listSelections()
-            cm.replaceSelection(editormd.firstUpperCase(selection))
+            var cm = this.cm;
+            var selection = cm.getSelection();
+            var selections = cm.listSelections();
+            cm.replaceSelection(editormd.firstUpperCase(selection));
             cm.setSelections(selections)
         },
         ucwords: function () {
-            var cm = this.cm
-            var selection = cm.getSelection()
-            var selections = cm.listSelections()
-            cm.replaceSelection(editormd.wordsFirstUpperCase(selection))
+            var cm = this.cm;
+            var selection = cm.getSelection();
+            var selections = cm.listSelections();
+            cm.replaceSelection(editormd.wordsFirstUpperCase(selection));
             cm.setSelections(selections)
         },
         uppercase: function () {
-            var cm = this.cm
-            var selection = cm.getSelection()
-            var selections = cm.listSelections()
-            cm.replaceSelection(selection.toUpperCase())
+            var cm = this.cm;
+            var selection = cm.getSelection();
+            var selections = cm.listSelections();
+            cm.replaceSelection(selection.toUpperCase());
             cm.setSelections(selections)
         },
         lowercase: function () {
-            var cm = this.cm
-            var cursor = cm.getCursor()
-            var selection = cm.getSelection()
-            var selections = cm.listSelections()
-            cm.replaceSelection(selection.toLowerCase())
+            var cm = this.cm;
+            var cursor = cm.getCursor();
+            var selection = cm.getSelection();
+            var selections = cm.listSelections();
+            cm.replaceSelection(selection.toLowerCase());
             cm.setSelections(selections)
         },
         h1: function () {
-            var cm = this.cm
-            var cursor = cm.getCursor()
-            var selection = cm.getSelection()
+            var cm = this.cm;
+            var cursor = cm.getCursor();
+            var selection = cm.getSelection();
             if (cursor.ch !== 0) {
-                cm.setCursor(cursor.line, 0)
-                cm.replaceSelection("# " + selection)
+                cm.setCursor(cursor.line, 0);
+                cm.replaceSelection("# " + selection);
                 cm.setCursor(cursor.line, cursor.ch + 2)
             } else {
                 cm.replaceSelection("# " + selection)
             }
         },
         h2: function () {
-            var cm = this.cm
-            var cursor = cm.getCursor()
-            var selection = cm.getSelection()
+            var cm = this.cm;
+            var cursor = cm.getCursor();
+            var selection = cm.getSelection();
             if (cursor.ch !== 0) {
-                cm.setCursor(cursor.line, 0)
-                cm.replaceSelection("## " + selection)
+                cm.setCursor(cursor.line, 0);
+                cm.replaceSelection("## " + selection);
                 cm.setCursor(cursor.line, cursor.ch + 3)
             } else {
                 cm.replaceSelection("## " + selection)
             }
         },
         h3: function () {
-            var cm = this.cm
-            var cursor = cm.getCursor()
-            var selection = cm.getSelection()
+            var cm = this.cm;
+            var cursor = cm.getCursor();
+            var selection = cm.getSelection();
             if (cursor.ch !== 0) {
-                cm.setCursor(cursor.line, 0)
-                cm.replaceSelection("### " + selection)
+                cm.setCursor(cursor.line, 0);
+                cm.replaceSelection("### " + selection);
                 cm.setCursor(cursor.line, cursor.ch + 4)
             } else {
                 cm.replaceSelection("### " + selection)
             }
         },
         h4: function () {
-            var cm = this.cm
-            var cursor = cm.getCursor()
-            var selection = cm.getSelection()
+            var cm = this.cm;
+            var cursor = cm.getCursor();
+            var selection = cm.getSelection();
             if (cursor.ch !== 0) {
-                cm.setCursor(cursor.line, 0)
-                cm.replaceSelection("#### " + selection)
+                cm.setCursor(cursor.line, 0);
+                cm.replaceSelection("#### " + selection);
                 cm.setCursor(cursor.line, cursor.ch + 5)
             } else {
                 cm.replaceSelection("#### " + selection)
             }
         },
         h5: function () {
-            var cm = this.cm
-            var cursor = cm.getCursor()
-            var selection = cm.getSelection()
+            var cm = this.cm;
+            var cursor = cm.getCursor();
+            var selection = cm.getSelection();
             if (cursor.ch !== 0) {
-                cm.setCursor(cursor.line, 0)
-                cm.replaceSelection("##### " + selection)
+                cm.setCursor(cursor.line, 0);
+                cm.replaceSelection("##### " + selection);
                 cm.setCursor(cursor.line, cursor.ch + 6)
             } else {
                 cm.replaceSelection("##### " + selection)
             }
         },
         h6: function () {
-            var cm = this.cm
-            var cursor = cm.getCursor()
-            var selection = cm.getSelection()
+            var cm = this.cm;
+            var cursor = cm.getCursor();
+            var selection = cm.getSelection();
             if (cursor.ch !== 0) {
-                cm.setCursor(cursor.line, 0)
-                cm.replaceSelection("###### " + selection)
+                cm.setCursor(cursor.line, 0);
+                cm.replaceSelection("###### " + selection);
                 cm.setCursor(cursor.line, cursor.ch + 7)
             } else {
                 cm.replaceSelection("###### " + selection)
             }
         },
         "list-ul": function () {
-            var cm = this.cm
-            var cursor = cm.getCursor()
-            var selection = cm.getSelection()
+            var cm = this.cm;
+            var cursor = cm.getCursor();
+            var selection = cm.getSelection();
             if (selection === "") {
                 cm.replaceSelection("- " + selection)
             } else {
-                var selectionText = selection.split("\n")
+                var selectionText = selection.split("\n");
                 for (var i = 0, len = selectionText.length; i < len; i++) {
                     selectionText[i] =
                         selectionText[i] === "" ? "" : "- " + selectionText[i]
@@ -2762,13 +2762,13 @@
             }
         },
         "list-ol": function () {
-            var cm = this.cm
-            var cursor = cm.getCursor()
-            var selection = cm.getSelection()
+            var cm = this.cm;
+            var cursor = cm.getCursor();
+            var selection = cm.getSelection();
             if (selection === "") {
                 cm.replaceSelection("1. " + selection)
             } else {
-                var selectionText = selection.split("\n")
+                var selectionText = selection.split("\n");
                 for (var i = 0, len = selectionText.length; i < len; i++) {
                     selectionText[i] =
                         selectionText[i] === "" ? "" : i + 1 + ". " + selectionText[i]
@@ -2777,22 +2777,22 @@
             }
         },
         hr: function () {
-            var cm = this.cm
-            var cursor = cm.getCursor()
-            var selection = cm.getSelection()
+            var cm = this.cm;
+            var cursor = cm.getCursor();
+            var selection = cm.getSelection();
             cm.replaceSelection(
                 (cursor.ch !== 0 ? "\n\n" : "\n") + "------------\n\n"
             )
         },
         tex: function () {
             if (!this.settings.tex) {
-                alert("settings.tex === false")
+                alert("settings.tex === false");
                 return this
             }
-            var cm = this.cm
-            var cursor = cm.getCursor()
-            var selection = cm.getSelection()
-            cm.replaceSelection("$$" + selection + "$$")
+            var cm = this.cm;
+            var cursor = cm.getCursor();
+            var selection = cm.getSelection();
+            cm.replaceSelection("$$" + selection + "$$");
             if (selection === "") {
                 cm.setCursor(cursor.line, cursor.ch + 2)
             }
@@ -2808,21 +2808,21 @@
         },
         pagebreak: function () {
             if (!this.settings.pageBreak) {
-                alert("settings.pageBreak === false")
+                alert("settings.pageBreak === false");
                 return this
             }
-            var cm = this.cm
-            var selection = cm.getSelection()
+            var cm = this.cm;
+            var selection = cm.getSelection();
             cm.replaceSelection("\r\n[========]\r\n")
         },
         image: function () {
             this.executePlugin("imageDialog", "image-dialog/image-dialog")
         },
         code: function () {
-            var cm = this.cm
-            var cursor = cm.getCursor()
-            var selection = cm.getSelection()
-            cm.replaceSelection("`" + selection + "`")
+            var cm = this.cm;
+            var cursor = cm.getCursor();
+            var selection = cm.getSelection();
+            cm.replaceSelection("`" + selection + "`");
             if (selection === "") {
                 cm.setCursor(cursor.line, cursor.ch + 1)
             }
@@ -2843,10 +2843,10 @@
             this.executePlugin("tableDialog", "table-dialog/table-dialog")
         },
         datetime: function () {
-            var cm = this.cm
-            var selection = cm.getSelection()
-            var date = new Date()
-            var langName = this.settings.lang.name
+            var cm = this.cm;
+            var selection = cm.getSelection();
+            var date = new Date();
+            var langName = this.settings.lang.name;
             var datefmt =
                 editormd.dateFormat() +
                 " " +
@@ -2854,7 +2854,7 @@
                     langName === "zh-cn" || langName === "zh-tw"
                         ? "cn-week-day"
                         : "week-day"
-                )
+                );
             cm.replaceSelection(datefmt)
         },
         emoji: function () {
@@ -2890,10 +2890,10 @@
         info: function () {
             this.showInfoDialog()
         }
-    }
+    };
 
-    var isMac = navigator.platform.toUpperCase().indexOf("MAC") >= 0
-    var key = isMac ? "Cmd" : "Ctrl"
+    var isMac = navigator.platform.toUpperCase().indexOf("MAC") >= 0;
+    var key = isMac ? "Cmd" : "Ctrl";
     editormd.keyMaps = {
         [key + "-1"]: "h1",
         [key + "-2"]: "h2",
@@ -2905,14 +2905,14 @@
         [key + "-D"]: "datetime",
         [key + "Ctrl-E"]: function () {
             // emoji
-            var cm = this.cm
-            var cursor = cm.getCursor()
-            var selection = cm.getSelection()
+            var cm = this.cm;
+            var cursor = cm.getCursor();
+            var selection = cm.getSelection();
             if (!this.settings.emoji) {
-                alert("Error: settings.emoji == false")
+                alert("Error: settings.emoji == false");
                 return
             }
-            cm.replaceSelection(":" + selection + ":")
+            cm.replaceSelection(":" + selection + ":");
             if (selection === "") {
                 cm.setCursor(cursor.line, cursor.ch + 1)
             }
@@ -2922,25 +2922,25 @@
         [key + "-I"]: "italic",
         [key + "-K"]: "code",
         "Ctrl-L": function () {
-            var cm = this.cm
-            var cursor = cm.getCursor()
-            var selection = cm.getSelection()
-            var title = selection === "" ? "" : ' "' + selection + '"'
-            cm.replaceSelection("[" + selection + "](" + title + ")")
+            var cm = this.cm;
+            var cursor = cm.getCursor();
+            var selection = cm.getSelection();
+            var title = selection === "" ? "" : ' "' + selection + '"';
+            cm.replaceSelection("[" + selection + "](" + title + ")");
             if (selection === "") {
                 cm.setCursor(cursor.line, cursor.ch + 1)
             }
         },
         [key + "-U"]: "list-ul",
         "Shift-Ctrl-A": function () {
-            var cm = this.cm
-            var cursor = cm.getCursor()
-            var selection = cm.getSelection()
+            var cm = this.cm;
+            var cursor = cm.getCursor();
+            var selection = cm.getSelection();
             if (!this.settings.atLink) {
-                alert("Error: settings.atLink == false")
+                alert("Error: settings.atLink == false");
                 return
             }
-            cm.replaceSelection("@" + selection)
+            cm.replaceSelection("@" + selection);
             if (selection === "") {
                 cm.setCursor(cursor.line, cursor.ch + 1)
             }
@@ -2950,10 +2950,10 @@
         ["Shift" + key + "S"]: "del",
         ["Shift" + key + "K"]: "tex", // KaTeX
         "Shift-Alt-C": function () {
-            var cm = this.cm
-            var cursor = cm.getCursor()
-            var selection = cm.getSelection()
-            cm.replaceSelection(["```", selection, "```"].join("\n"))
+            var cm = this.cm;
+            var cursor = cm.getCursor();
+            var selection = cm.getSelection();
+            cm.replaceSelection(["```", selection, "```"].join("\n"));
             if (selection === "") {
                 cm.setCursor(cursor.line, cursor.ch + 3)
             }
@@ -2967,11 +2967,11 @@
         ["Shift-" + key + "-Alt-U"]: "ucfirst",
         "Shift-Alt-L": "lowercase",
         ["Shift-" + key + "-I"]: function () {
-            var cm = this.cm
-            var cursor = cm.getCursor()
-            var selection = cm.getSelection()
-            var title = selection === "" ? "" : ' "' + selection + '"'
-            cm.replaceSelection("![" + selection + "](" + title + ")")
+            var cm = this.cm;
+            var cursor = cm.getCursor();
+            var selection = cm.getSelection();
+            var title = selection === "" ? "" : ' "' + selection + '"';
+            cm.replaceSelection("![" + selection + "](" + title + ")");
             if (selection === "") {
                 cm.setCursor(cursor.line, cursor.ch + 4)
             }
@@ -2985,7 +2985,7 @@
         F9: "watch",
         F10: "preview",
         F11: "fullscreen"
-    }
+    };
 
     /**
      * 清除字符串两边的空格
@@ -2999,9 +2999,9 @@
         return !String.prototype.trim
             ? str.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, "")
             : str.trim()
-    }
+    };
 
-    editormd.trim = trim
+    editormd.trim = trim;
 
     /**
      * 所有单词首字母大写
@@ -3015,9 +3015,9 @@
         return str.toLowerCase().replace(/\b(\w)|\s(\w)/g, function ($1) {
             return $1.toUpperCase()
         })
-    }
+    };
 
-    editormd.ucwords = editormd.wordsFirstUpperCase = ucwords
+    editormd.ucwords = editormd.wordsFirstUpperCase = ucwords;
 
     /**
      * 字符串首字母大写
@@ -3031,13 +3031,13 @@
         return str.toLowerCase().replace(/\b(\w)/, function ($1) {
             return $1.toUpperCase()
         })
-    }
+    };
 
-    var ucfirst = firstUpperCase
-    editormd.firstUpperCase = editormd.ucfirst = firstUpperCase
+    var ucfirst = firstUpperCase;
+    editormd.firstUpperCase = editormd.ucfirst = firstUpperCase;
     editormd.urls = {
         atLinkBase: "https://github.com/"
-    }
+    };
     editormd.regexs = {
         atLink: /@(\w+)/g,
         email: /(\w+)@(\w+)\.(\w+)\.?(\w+)?/g,
@@ -3048,17 +3048,17 @@
         fontAwesome: /:(fa-([\w]+)(-(\w+)){0,}):/g,
         editormdLogo: /:(editormd-logo-?(\w+)?):/g,
         pageBreak: /^\[[=]{8,}\]$/
-    }
+    };
     // Emoji graphics files url path
     editormd.emoji = {
         path: "http://www.emoji-cheat-sheet.com/graphics/emojis/",
         ext: ".png"
-    }
+    };
     // Twitter Emoji (Twemoji)  graphics files url path
     editormd.twemoji = {
         path: "http://twemoji.maxcdn.com/36x36/",
         ext: ".png"
-    }
+    };
 
     /**
      * 自定义marked的解析器
@@ -3081,28 +3081,28 @@
             tex: false, // TeX(LaTeX), based on KaTeX
             flowChart: false, // flowChart.js only support IE9+
             sequenceDiagram: false // sequenceDiagram.js only support IE9+
-        }
-        var settings = $.extend(defaults, options || {})
-        var marked = editormd.$marked
-        var markedRenderer = new marked.Renderer()
-        markdownToC = markdownToC || []
+        };
+        var settings = $.extend(defaults, options || {});
+        var marked = editormd.$marked;
+        var markedRenderer = new marked.Renderer();
+        markdownToC = markdownToC || [];
 
-        var regexs = editormd.regexs
-        var atLinkReg = regexs.atLink
-        var emojiReg = regexs.emoji
-        var emailReg = regexs.email
-        var emailLinkReg = regexs.emailLink
-        var twemojiReg = regexs.twemoji
-        var faIconReg = regexs.fontAwesome
-        var editormdLogoReg = regexs.editormdLogo
-        var pageBreakReg = regexs.pageBreak
+        var regexs = editormd.regexs;
+        var atLinkReg = regexs.atLink;
+        var emojiReg = regexs.emoji;
+        var emailReg = regexs.email;
+        var emailLinkReg = regexs.emailLink;
+        var twemojiReg = regexs.twemoji;
+        var faIconReg = regexs.fontAwesome;
+        var editormdLogoReg = regexs.editormdLogo;
+        var pageBreakReg = regexs.pageBreak;
 
         markedRenderer.emoji = function (text) {
             text = text.replace(editormd.regexs.emojiDatetime, function ($1) {
                 return $1.replace(/:/g, "&#58;")
-            })
+            });
 
-            var matchs = text.match(emojiReg)
+            var matchs = text.match(emojiReg);
 
             if (!matchs || !settings.emoji) {
                 return text
@@ -3114,11 +3114,11 @@
                 }
 
                 text = text.replace(new RegExp(matchs[i]), function ($1, $2) {
-                    var faMatchs = $1.match(faIconReg)
-                    var name = $1.replace(/:/g, "")
+                    var faMatchs = $1.match(faIconReg);
+                    var name = $1.replace(/:/g, "");
                     if (faMatchs) {
                         for (var fa = 0, len1 = faMatchs.length; fa < len1; fa++) {
-                            var faName = faMatchs[fa].replace(/:/g, "")
+                            var faName = faMatchs[fa].replace(/:/g, "");
                             return (
                                 '<i class="fa ' +
                                 faName +
@@ -3128,11 +3128,11 @@
                             )
                         }
                     } else {
-                        var emdlogoMathcs = $1.match(editormdLogoReg)
-                        var twemojiMatchs = $1.match(twemojiReg)
+                        var emdlogoMathcs = $1.match(editormdLogoReg);
+                        var twemojiMatchs = $1.match(twemojiReg);
                         if (emdlogoMathcs) {
                             for (var x = 0, len2 = emdlogoMathcs.length; x < len2; x++) {
-                                var logoName = emdlogoMathcs[x].replace(/:/g, "")
+                                var logoName = emdlogoMathcs[x].replace(/:/g, "");
                                 return (
                                     '<i class="' +
                                     logoName +
@@ -3143,7 +3143,7 @@
                             }
                         } else if (twemojiMatchs) {
                             for (var t = 0, len3 = twemojiMatchs.length; t < len3; t++) {
-                                var twe = twemojiMatchs[t].replace(/:/g, "").replace("tw-", "")
+                                var twe = twemojiMatchs[t].replace(/:/g, "").replace("tw-", "");
                                 return (
                                     '<img src="' +
                                     editormd.twemoji.path +
@@ -3157,9 +3157,9 @@
                                 )
                             }
                         } else {
-                            var src = name === "+1" ? "plus1" : name
-                            src = src === "black_large_square" ? "black_square" : src
-                            src = src === "moon" ? "waxing_gibbous_moon" : src
+                            var src = name === "+1" ? "plus1" : name;
+                            src = src === "black_large_square" ? "black_square" : src;
+                            src = src === "moon" ? "waxing_gibbous_moon" : src;
                             return (
                                 '<img src="' +
                                 editormd.emoji.path +
@@ -3176,14 +3176,14 @@
                 })
             }
             return text
-        }
+        };
 
         markedRenderer.atLink = function (text) {
             if (atLinkReg.test(text)) {
                 if (settings.atLink) {
                     text = text.replace(emailReg, function ($1, $2, $3, $4) {
                         return $1.replace(/@/g, "_#_&#64;_#_")
-                    })
+                    });
                     text = text
                         .replace(atLinkReg, function ($1, $2) {
                             return (
@@ -3211,14 +3211,14 @@
                 return text
             }
             return text
-        }
+        };
 
         markedRenderer.link = function (href, title, text) {
             if (this.options.sanitize) {
                 try {
                     var prot = decodeURIComponent(unescape(href))
                         .replace(/[^\w:]/g, "")
-                        .toLowerCase()
+                        .toLowerCase();
                     if (prot.indexOf("javascript:") === 0) {
                         return ""
                     }
@@ -3226,7 +3226,7 @@
                     return ""
                 }
             }
-            var out = '<a href="' + href + '"'
+            var out = '<a href="' + href + '"';
             if (atLinkReg.test(title) || atLinkReg.test(text)) {
                 if (title) {
                     out += ' title="' + title.replace(/@/g, "&#64;")
@@ -3236,34 +3236,34 @@
             if (title) {
                 out += ' title="' + title + '"'
             }
-            out += ">" + text + "</a>"
+            out += ">" + text + "</a>";
             return out
-        }
+        };
 
         markedRenderer.heading = function (text, level, raw) {
-            var linkText = text
-            var hasLinkReg = /\s*<a\s*href\=\"(.*)\"\s*([^\>]*)\>(.*)<\/a\>\s*/
-            var getLinkTextReg = /\s*<a\s*([^\>]+)\>([^\>]*)<\/a\>\s*/g
+            var linkText = text;
+            var hasLinkReg = /\s*<a\s*href\=\"(.*)\"\s*([^\>]*)\>(.*)<\/a\>\s*/;
+            var getLinkTextReg = /\s*<a\s*([^\>]+)\>([^\>]*)<\/a\>\s*/g;
             if (hasLinkReg.test(text)) {
-                var tempText = []
-                text = text.split(/<a\s*([^\>]+)\>([^\>]*)<\/a\>/)
+                var tempText = [];
+                text = text.split(/<a\s*([^\>]+)\>([^\>]*)<\/a\>/);
                 for (var i = 0, len = text.length; i < len; i++) {
                     tempText.push(text[i].replace(/\s*href\=\"(.*)\"\s*/g, ""))
                 }
                 text = tempText.join(" ")
             }
-            text = trim(text)
-            var escapedText = text.toLowerCase().replace(/[^\w]+/g, "-")
+            text = trim(text);
+            var escapedText = text.toLowerCase().replace(/[^\w]+/g, "-");
             var toc = {
                 text: text,
                 level: level,
                 slug: escapedText
-            }
-            var isChinese = /^[\u4e00-\u9fa5]+$/.test(text)
+            };
+            var isChinese = /^[\u4e00-\u9fa5]+$/.test(text);
             var id = isChinese
                 ? escape(text).replace(/\%/g, "")
-                : text.toLowerCase().replace(/[^\w]+/g, "-")
-            markdownToC.push(toc)
+                : text.toLowerCase().replace(/[^\w]+/g, "-");
+            markdownToC.push(toc);
             var headingHTML =
                 "<h" +
                 level +
@@ -3272,32 +3272,32 @@
                 "-" +
                 this.options.headerPrefix +
                 id +
-                '">'
-            headingHTML += '<a name="' + text + '" class="reference-link"></a>'
-            headingHTML += '<span class="header-link octicon octicon-link"></span>'
+                '">';
+            headingHTML += '<a name="' + text + '" class="reference-link"></a>';
+            headingHTML += '<span class="header-link octicon octicon-link"></span>';
             headingHTML += hasLinkReg
                 ? this.atLink(this.emoji(linkText))
-                : this.atLink(this.emoji(text))
-            headingHTML += "</h" + level + ">"
+                : this.atLink(this.emoji(text));
+            headingHTML += "</h" + level + ">";
             return headingHTML
-        }
+        };
         markedRenderer.pageBreak = function (text) {
             if (pageBreakReg.test(text) && settings.pageBreak) {
                 text =
                     '<hr style="page-break-after:always;" class="page-break editormd-page-break" />'
             }
             return text
-        }
+        };
         markedRenderer.paragraph = function (text) {
-            var isTeXInline = /\$\$(.*)\$\$/g.test(text)
-            var isTeXLine = /^\$\$(.*)\$\$$/.test(text)
+            var isTeXInline = /\$\$(.*)\$\$/g.test(text);
+            var isTeXLine = /^\$\$(.*)\$\$$/.test(text);
             var isTeXAddClass = isTeXLine
                 ? ' class="' + editormd.classNames.tex + '"'
-                : ""
+                : "";
             var isToC = settings.tocm
                 ? /^(\[TOC\]|\[TOCM\])$/.test(text)
-                : /^\[TOC\]$/.test(text)
-            var isToCMenu = /^\[TOCM\]$/.test(text)
+                : /^\[TOC\]$/.test(text);
+            var isToCMenu = /^\[TOCM\]$/.test(text);
             if (!isTeXLine && isTeXInline) {
                 text = text.replace(/(\$\$([^\$]*)\$\$)+/g, function ($1, $2) {
                     return (
@@ -3312,7 +3312,7 @@
                 text = isTeXLine ? text.replace(/\$/g, "") : text
             }
             var tocHTML =
-                '<div class="markdown-toc editormd-markdown-toc">' + text + "</div>"
+                '<div class="markdown-toc editormd-markdown-toc">' + text + "</div>";
             return isToC
                 ? isToCMenu
                     ? '<div class="editormd-toc-menu">' + tocHTML + "</div><br/>"
@@ -3324,7 +3324,7 @@
                     ">" +
                     this.atLink(this.emoji(text)) +
                     "</p>\n"
-        }
+        };
         markedRenderer.code = function (code, lang, escaped) {
             if (lang === "seq" || lang === "sequence") {
                 return '<div class="sequence-diagram">' + code + "</div>"
@@ -3335,14 +3335,14 @@
             } else {
                 return marked.Renderer.prototype.code.apply(this, arguments)
             }
-        }
+        };
         markedRenderer.tablecell = function (content, flags) {
-            var type = flags.header ? "th" : "td"
+            var type = flags.header ? "th" : "td";
             var tag = flags.align
                 ? "<" + type + ' style="text-align:' + flags.align + '">'
-                : "<" + type + ">"
+                : "<" + type + ">";
             return tag + this.atLink(this.emoji(content)) + "</" + type + ">\n"
-        }
+        };
         markedRenderer.listitem = function (text) {
             if (settings.taskList && /^\s*\[[x\s]\]\s*/.test(text)) {
                 text = text
@@ -3353,7 +3353,7 @@
                     .replace(
                         /^\s*\[x\]\s*/,
                         '<input type="checkbox" class="task-list-item-checkbox" checked disabled /> '
-                    )
+                    );
                 return (
                     '<li style="list-style: none;">' +
                     this.atLink(this.emoji(text)) +
@@ -3362,9 +3362,9 @@
             } else {
                 return "<li>" + this.atLink(this.emoji(text)) + "</li>"
             }
-        }
+        };
         return markedRenderer
-    }
+    };
 
     /**
      *
@@ -3383,30 +3383,30 @@
         tocDropdown,
         startLevel
     ) {
-        var html = ""
-        var lastLevelArr = [0]
+        var html = "";
+        var lastLevelArr = [0];
         // var lastLevel = 0
-        var classPrefix = this.classPrefix
-        startLevel = startLevel || 1
+        var classPrefix = this.classPrefix;
+        startLevel = startLevel || 1;
         for (var i = 0, len = toc.length; i < len; i++) {
-            var text = toc[i].text
-            var level = toc[i].level
-            var stageLen = lastLevelArr.length
-            var lastLevel = lastLevelArr[stageLen - 1]
-            var goBack = 0
+            var text = toc[i].text;
+            var level = toc[i].level;
+            var stageLen = lastLevelArr.length;
+            var lastLevel = lastLevelArr[stageLen - 1];
+            var goBack = 0;
             if (level < startLevel) {
                 continue
             }
             if (level > lastLevel) {
-                html += ""
+                html += "";
                 lastLevelArr.push(level)
             } else if (level < lastLevel) {
                 for (var j = stageLen - 1; j >= 0; j--) {
                     if (level <= lastLevelArr[j]) {
-                        goBack++
+                        goBack++;
                         lastLevelArr.pop()
                     } else {
-                        lastLevelArr.push(level)
+                        lastLevelArr.push(level);
                         break
                     }
                 }
@@ -3426,18 +3426,18 @@
                 "</a><ul>"
         }
 
-        var tocContainer = container.find(".markdown-toc")
+        var tocContainer = container.find(".markdown-toc");
 
         if (
             tocContainer.length < 1 &&
             container.attr("previewContainer") === "false"
         ) {
             var tocHTML =
-                '<div class="markdown-toc ' + classPrefix + 'markdown-toc"></div>'
+                '<div class="markdown-toc ' + classPrefix + 'markdown-toc"></div>';
             tocHTML = tocDropdown
                 ? '<div class="' + classPrefix + 'toc-menu">' + tocHTML + "</div>"
-                : tocHTML
-            container.html(tocHTML)
+                : tocHTML;
+            container.html(tocHTML);
             tocContainer = container.find(".markdown-toc")
         }
         if (tocDropdown) {
@@ -3446,9 +3446,9 @@
         tocContainer
             .html('<ul class="markdown-toc-list"></ul>')
             .children(".markdown-toc-list")
-            .html(html.replace(/\r?\n?<ul\><\/ul\>/g, ""))
+            .html(html.replace(/\r?\n?<ul\><\/ul\>/g, ""));
         return tocContainer
-    }
+    };
 
     /**
      *
@@ -3461,33 +3461,33 @@
      */
 
     editormd.tocDropdownMenu = function (container, tocTitle) {
-        tocTitle = tocTitle || "Table of Contents"
-        var zindex = 400
-        var tocMenus = container.find("." + this.classPrefix + "toc-menu")
+        tocTitle = tocTitle || "Table of Contents";
+        var zindex = 400;
+        var tocMenus = container.find("." + this.classPrefix + "toc-menu");
         tocMenus.each(function () {
-            var $this = $(this)
-            var toc = $this.children(".markdown-toc")
-            var icon = '<i class="fa fa-angle-down"></i>'
+            var $this = $(this);
+            var toc = $this.children(".markdown-toc");
+            var icon = '<i class="fa fa-angle-down"></i>';
             var btn =
                 '<a href="javascript:;" class="toc-menu-btn">' +
                 icon +
                 tocTitle +
-                "</a>"
-            var menu = toc.children("ul")
-            var list = menu.find("li")
-            toc.append(btn)
-            list.first().before("<li><h1>" + tocTitle + " " + icon + "</h1></li>")
+                "</a>";
+            var menu = toc.children("ul");
+            var list = menu.find("li");
+            toc.append(btn);
+            list.first().before("<li><h1>" + tocTitle + " " + icon + "</h1></li>");
             $this
                 .mouseover(function () {
-                    menu.show()
+                    menu.show();
                     list.each(function () {
-                        var li = $(this)
-                        var ul = li.children("ul")
+                        var li = $(this);
+                        var ul = li.children("ul");
                         if (ul.html() === "") {
                             ul.remove()
                         }
                         if (ul.length > 0 && ul.html() !== "") {
-                            var firstA = li.children("a").first()
+                            var firstA = li.children("a").first();
                             if (firstA.children(".fa").length < 1) {
                                 firstA.append(
                                     $(icon).css({float: "right", paddingTop: "4px"})
@@ -3496,7 +3496,7 @@
                         }
                         li
                             .mouseover(function () {
-                                ul.css("z-index", zindex).show()
+                                ul.css("z-index", zindex).show();
                                 zindex += 1
                             })
                             .mouseleave(function () {
@@ -3507,10 +3507,10 @@
                 .mouseleave(function () {
                     menu.hide()
                 })
-        })
+        });
 
         return tocMenus
-    }
+    };
 
     /**
      * 简单地过滤指定的HTML标签
@@ -3523,16 +3523,16 @@
 
     editormd.filterHTMLTags = function (html, filters) {
         if (typeof html !== "string") {
-            html = new String(html)
+            html = String(html)
         }
         if (typeof filters !== "string") {
             return html
         }
-        var expression = filters.split("|")
-        var filterTags = expression[0].split(",")
-        var attrs = expression[1]
+        var expression = filters.split("|");
+        var filterTags = expression[0].split(",");
+        var attrs = expression[1];
         for (var i = 0, len = filterTags.length; i < len; i++) {
-            var tag = filterTags[i]
+            var tag = filterTags[i];
             html = html.replace(
                 new RegExp("<s*" + tag + "s*([^>]*)>([^>]*)<s*/" + tag + "s*>", "igm"),
                 ""
@@ -3540,37 +3540,37 @@
         }
         //return html;
         if (typeof attrs !== "undefined") {
-            var htmlTagRegex = /<(\w+)\s*([^\>]*)\>([^\>]*)<\/(\w+)\>/gi
+            var htmlTagRegex = /<(\w+)\s*([^\>]*)\>([^\>]*)<\/(\w+)\>/gi;
             if (attrs === "*") {
                 html = html.replace(htmlTagRegex, function ($1, $2, $3, $4, $5) {
                     return "<" + $2 + ">" + $4 + "</" + $5 + ">"
                 })
             } else if (attrs === "on*") {
                 html = html.replace(htmlTagRegex, function ($1, $2, $3, $4, $5) {
-                    var el = $("<" + $2 + ">" + $4 + "</" + $5 + ">")
-                    var _attrs = $($1)[0].attributes
-                    var $attrs = {}
+                    var el = $("<" + $2 + ">" + $4 + "</" + $5 + ">");
+                    var _attrs = $($1)[0].attributes;
+                    var $attrs = {};
                     $.each(_attrs, function (i, e) {
                         if (e.nodeName !== '"') {
-                            $attrs[e.nodeName] = e.nodeValue
+                            $attrs[e.nodeName] = e.nodeValue;
                             //   fixed <a href="javascript:alert('xss')"> will cause xss problem
                             if (e.nodeName === "href" && e.nodeValue.toLowerCase().indexOf('javascript:') >= 0) {
                                 $attrs[e.nodeName] = 'javascript:;';
                             }
                         }
-                    })
+                    });
                     $.each($attrs, function (i) {
                         if (i.indexOf("on") === 0) {
                             delete $attrs[i]
                         }
-                    })
-                    el.attr($attrs)
-                    var text = typeof el[1] !== "undefined" ? $(el[1]).text() : ""
+                    });
+                    el.attr($attrs);
+                    var text = typeof el[1] !== "undefined" ? $(el[1]).text() : "";
                     // FIXED 使用 on* 过滤标签的属性，图片加链接的语法会出错的问题
                     if ($2 && !isNaN($2) && $2 !== $5) {
                         text += "<" + $2 + ">" + $4 + "</" + $5 + ">"
                     } else if ($2 && isNaN($2) && $2 !== $5) {
-                        text += "</" + $5 + ">"
+                        text += "</" + $5 + ">";
                         return el[0].outerHTML + text
                     } else {
                         return el[0].outerHTML + text
@@ -3578,18 +3578,18 @@
                 })
             } else {
                 html = html.replace(htmlTagRegex, function ($1, $2, $3, $4) {
-                    var filterAttrs = attrs.split(",")
-                    var el = $($1)
-                    el.html($4)
+                    var filterAttrs = attrs.split(",");
+                    var el = $($1);
+                    el.html($4);
                     $.each(filterAttrs, function (i) {
                         el.attr(filterAttrs[i], null)
-                    })
+                    });
                     return el[0].outerHTML
                 })
             }
         }
         return html
-    }
+    };
 
     /**
      * 将Markdown文档解析为HTML用于前台显示
@@ -3622,20 +3622,20 @@
             flowChart: false,
             sequenceDiagram: false,
             previewCodeHighlight: true
-        }
+        };
 
-        editormd.$marked = marked
+        editormd.$marked = marked;
 
-        var div = $("#" + id)
-        var settings = (div.settings = $.extend(true, defaults, options || {}))
-        var saveTo = div.find("textarea")
+        var div = $("#" + id);
+        var settings = (div.settings = $.extend(true, defaults, options || {}));
+        var saveTo = div.find("textarea");
         if (saveTo.length < 1) {
-            div.append("<textarea></textarea>")
+            div.append("<textarea></textarea>");
             saveTo = div.find("textarea")
         }
         var markdownDoc =
-            settings.markdown === "" ? saveTo.val() : settings.markdown
-        var markdownToC = []
+            settings.markdown === "" ? saveTo.val() : settings.markdown;
+        var markdownToC = [];
         var rendererOptions = {
             toc: settings.toc,
             tocm: settings.tocm,
@@ -3649,7 +3649,7 @@
             flowChart: settings.flowChart,
             sequenceDiagram: settings.sequenceDiagram,
             previewCodeHighlight: settings.previewCodeHighlight
-        }
+        };
         var markedOptions = {
             renderer: editormd.markedRenderer(markdownToC, rendererOptions),
             gfm: settings.gfm,
@@ -3659,13 +3659,13 @@
             sanitize: settings.htmlDecode ? false : true, // 是否忽略HTML标签，即是否开启HTML标签解析，为了安全性，默认不开启
             smartLists: true,
             smartypants: true
-        }
-        markdownDoc = new String(markdownDoc)
-        var markdownParsed = marked(markdownDoc, markedOptions)
+        };
+        markdownDoc = String(markdownDoc);
+        var markdownParsed = marked(markdownDoc, markedOptions);
         markdownParsed = editormd.filterHTMLTags(
             markdownParsed,
             settings.htmlDecode
-        )
+        );
         if (settings.markdownSourceCode) {
             saveTo.text(markdownDoc)
         } else {
@@ -3673,9 +3673,9 @@
         }
         div
             .addClass("markdown-body " + this.classPrefix + "html-preview")
-            .append(markdownParsed)
+            .append(markdownParsed);
         var tocContainer =
-            settings.tocContainer !== "" ? $(settings.tocContainer) : div
+            settings.tocContainer !== "" ? $(settings.tocContainer) : div;
         if (settings.tocContainer !== "") {
             tocContainer.attr("previewContainer", false)
         }
@@ -3685,7 +3685,7 @@
                 tocContainer,
                 settings.tocDropdown,
                 settings.tocStartLevel
-            )
+            );
             if (
                 settings.tocDropdown ||
                 div.find("." + this.classPrefix + "toc-menu").length > 0
@@ -3697,7 +3697,7 @@
             }
         }
         if (settings.previewCodeHighlight) {
-            div.find("pre").addClass("prettyprint linenums")
+            div.find("pre").addClass("prettyprint linenums");
             prettyPrint()
         }
         if (!editormd.isIE8) {
@@ -3711,21 +3711,21 @@
         if (settings.tex) {
             var katexHandle = function () {
                 div.find("." + editormd.classNames.tex).each(function () {
-                    var tex = $(this)
+                    var tex = $(this);
                     katex.render(
                         tex
                             .html()
                             .replace(/&lt;/g, "<")
                             .replace(/&gt;/g, ">"),
                         tex[0]
-                    )
+                    );
                     tex.find(".katex").css("font-size", "1.6em")
                 })
-            }
+            };
             if (settings.autoLoadKaTeX && !editormd.$katex && !editormd.kaTeXLoaded) {
                 this.loadKaTeX(function () {
-                    editormd.$katex = katex
-                    editormd.kaTeXLoaded = true
+                    editormd.$katex = katex;
+                    editormd.kaTeXLoaded = true;
                     katexHandle()
                 })
             } else {
@@ -3734,16 +3734,16 @@
         }
         div.getMarkdown = function () {
             return saveTo.val()
-        }
+        };
         return div
-    }
+    };
 
     // Editor.md themes, change toolbar themes etc.
     // added @1.5.0
-    editormd.themes = ["default", "dark"]
+    editormd.themes = ["default", "dark"];
     // Preview area themes
     // added @1.5.0
-    editormd.previewThemes = ["default", "dark"]
+    editormd.previewThemes = ["default", "dark"];
     // CodeMirror / editor area themes
     // @1.5.0 rename -> editorThemes, old version -> themes
     editormd.editorThemes = [
@@ -3778,13 +3778,13 @@
         "vibrant-ink",
         "xq-dark",
         "xq-light"
-    ]
-    editormd.loadPlugins = {}
+    ];
+    editormd.loadPlugins = {};
     editormd.loadFiles = {
         js: [],
         css: [],
         plugin: []
-    }
+    };
     /**
      * 动态加载Editor.md插件，但不立即执行
      * Load editor.md plugins
@@ -3796,16 +3796,16 @@
 
     editormd.loadPlugin = function (fileName, callback, into) {
         callback = callback || function () {
-        }
+        };
         this.loadScript(
             fileName,
             function () {
-                editormd.loadFiles.plugin.push(fileName)
+                editormd.loadFiles.plugin.push(fileName);
                 callback()
             },
             into
         )
-    }
+    };
 
     /**
      * 动态加载CSS文件的方法
@@ -3817,27 +3817,27 @@
      */
 
     editormd.loadCSS = function (fileName, callback, into) {
-        into = into || "head"
+        into = into || "head";
         callback = callback || function () {
-        }
+        };
 
-        var css = document.createElement("link")
-        css.type = "text/css"
-        css.rel = "stylesheet"
+        var css = document.createElement("link");
+        css.type = "text/css";
+        css.rel = "stylesheet";
         css.onload = css.onreadystatechange = function () {
-            editormd.loadFiles.css.push(fileName)
+            editormd.loadFiles.css.push(fileName);
             callback()
-        }
-        css.href = fileName + ".css"
+        };
+        css.href = fileName + ".css";
         if (into === "head") {
             document.getElementsByTagName("head")[0].appendChild(css)
         } else {
             document.body.appendChild(css)
         }
-    }
+    };
 
-    editormd.isIE = navigator.appName === "Microsoft Internet Explorer"
-    editormd.isIE8 = editormd.isIE && navigator.appVersion.match(/8./i) === "8."
+    editormd.isIE = navigator.appName === "Microsoft Internet Explorer";
+    editormd.isIE8 = editormd.isIE && navigator.appVersion.match(/8./i) === "8.";
 
     /**
      * 动态加载JS文件的方法
@@ -3849,14 +3849,14 @@
      */
 
     editormd.loadScript = function (fileName, callback, into) {
-        into = into || "head"
+        into = into || "head";
         callback = callback || function () {
-        }
-        var script = null
-        script = document.createElement("script")
-        script.id = fileName.replace(/[\./]+/g, "-")
-        script.type = "text/javascript"
-        script.src = fileName + ".js"
+        };
+        var script = null;
+        script = document.createElement("script");
+        script.id = fileName.replace(/[\./]+/g, "-");
+        script.type = "text/javascript";
+        script.src = fileName + ".js";
         if (editormd.isIE8) {
             script.onreadystatechange = function () {
                 if (script.readyState) {
@@ -3864,15 +3864,15 @@
                         script.readyState === "loaded" ||
                         script.readyState === "complete"
                     ) {
-                        script.onreadystatechange = null
-                        editormd.loadFiles.js.push(fileName)
+                        script.onreadystatechange = null;
+                        editormd.loadFiles.js.push(fileName);
                         callback()
                     }
                 }
             }
         } else {
             script.onload = function () {
-                editormd.loadFiles.js.push(fileName)
+                editormd.loadFiles.js.push(fileName);
                 callback()
             }
         }
@@ -3881,15 +3881,15 @@
         } else {
             document.body.appendChild(script)
         }
-    }
+    };
 
     // 使用国外的CDN，加载速度有时会很慢，或者自定义URL
     // You can custom KaTeX load url.
     editormd.katexURL = {
         css: "//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.3.0/katex.min",
         js: "//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.3.0/katex.min"
-    }
-    editormd.kaTeXLoaded = false
+    };
+    editormd.kaTeXLoaded = false;
     /**
      * 加载KaTeX文件
      * load KaTeX files
@@ -3901,7 +3901,7 @@
             editormd.loadScript(editormd.katexURL.js, callback || function () {
             })
         })
-    }
+    };
 
     /**
      * 锁屏
@@ -3913,7 +3913,7 @@
 
     editormd.lockScreen = function (lock) {
         $("html,body").css("overflow", lock ? "hidden" : "")
-    }
+    };
 
     /**
      * 动态创建对话框
@@ -3940,31 +3940,31 @@
             lockScreen: true,
             footer: true,
             buttons: false
-        }
+        };
 
-        options = $.extend(true, defaults, options)
+        options = $.extend(true, defaults, options);
 
-        var $this = this
-        var editor = this.editor
-        var classPrefix = editormd.classPrefix
-        var guid = new Date().getTime()
+        var $this = this;
+        var editor = this.editor;
+        var classPrefix = editormd.classPrefix;
+        var guid = new Date().getTime();
         var dialogName =
-            options.name === "" ? classPrefix + "dialog-" + guid : options.name
-        var mouseOrTouch = editormd.mouseOrTouch
-        var html = '<div class="' + classPrefix + "dialog " + dialogName + '">'
+            options.name === "" ? classPrefix + "dialog-" + guid : options.name;
+        var mouseOrTouch = editormd.mouseOrTouch;
+        var html = '<div class="' + classPrefix + "dialog " + dialogName + '">';
         if (options.title !== "") {
             html +=
                 '<div class="' +
                 classPrefix +
                 'dialog-header"' +
                 (options.drag ? ' style="cursor: move;"' : "") +
-                ">"
+                ">";
             html +=
                 '<strong class="' +
                 classPrefix +
                 'dialog-title">' +
                 options.title +
-                "</strong>"
+                "</strong>";
             html += "</div>"
         }
         if (options.closed) {
@@ -3974,7 +3974,7 @@
                 'dialog-close"></a>'
         }
         html +=
-            '<div class="' + classPrefix + 'dialog-container">' + options.content
+            '<div class="' + classPrefix + 'dialog-container">' + options.content;
         if (options.footer || typeof options.footer === "string") {
             html +=
                 '<div class="' +
@@ -3983,29 +3983,29 @@
                 (typeof options.footer === "boolean" ? "" : options.footer) +
                 "</div>"
         }
-        html += "</div>"
+        html += "</div>";
         html +=
             '<div class="' +
             classPrefix +
             "dialog-mask " +
             classPrefix +
-            'dialog-mask-bg"></div>'
+            'dialog-mask-bg"></div>';
         html +=
             '<div class="' +
             classPrefix +
             "dialog-mask " +
             classPrefix +
-            'dialog-mask-con"></div>'
-        html += "</div>"
-        editor.append(html)
-        var dialog = editor.find("." + dialogName)
+            'dialog-mask-con"></div>';
+        html += "</div>";
+        editor.append(html);
+        var dialog = editor.find("." + dialogName);
         dialog.lockScreen = function (lock) {
             if (options.lockScreen) {
-                $("html,body").css("overflow", lock ? "hidden" : "")
+                $("html,body").css("overflow", lock ? "hidden" : "");
                 $this.resize()
             }
             return dialog
-        }
+        };
         dialog.showMask = function () {
             if (options.mask) {
                 editor
@@ -4015,19 +4015,19 @@
                     .show()
             }
             return dialog
-        }
+        };
         dialog.hideMask = function () {
             if (options.mask) {
                 editor.find("." + classPrefix + "mask").hide()
             }
             return dialog
-        }
+        };
         dialog.loading = function (show) {
-            var loading = dialog.find("." + classPrefix + "dialog-mask")
-            loading[show ? "show" : "hide"]()
+            var loading = dialog.find("." + classPrefix + "dialog-mask");
+            loading[show ? "show" : "hide"]();
             return dialog
-        }
-        dialog.lockScreen(true).showMask()
+        };
+        dialog.lockScreen(true).showMask();
         dialog.show().css({
             zIndex: editormd.dialogZindex,
             border: editormd.isIE8 ? "1px solid #ddd" : "",
@@ -4039,15 +4039,15 @@
                 typeof options.height === "number"
                     ? options.height + "px"
                     : options.height
-        })
+        });
         var dialogPosition = function () {
             dialog.css({
                 top: ($(window).height() - dialog.height()) / 2 + "px",
                 left: ($(window).width() - dialog.width()) / 2 + "px"
             })
-        }
-        dialogPosition()
-        $(window).resize(dialogPosition)
+        };
+        dialogPosition();
+        $(window).resize(dialogPosition);
         dialog
             .children("." + classPrefix + "dialog-close")
             .bind(mouseOrTouch("click", "touchend"), function () {
@@ -4055,14 +4055,14 @@
                     .hide()
                     .lockScreen(false)
                     .hideMask()
-            })
+            });
         if (typeof options.buttons === "object") {
             var footer = (dialog.footer = dialog.find(
                 "." + classPrefix + "dialog-footer"
-            ))
+            ));
             for (var key in options.buttons) {
-                var btn = options.buttons[key]
-                var btnClassName = classPrefix + key + "-btn"
+                var btn = options.buttons[key];
+                var btnClassName = classPrefix + key + "-btn";
                 footer.append(
                     '<button class="' +
                     classPrefix +
@@ -4071,25 +4071,25 @@
                     '">' +
                     btn[0] +
                     "</button>"
-                )
-                btn[1] = $.proxy(btn[1], dialog)
+                );
+                btn[1] = $.proxy(btn[1], dialog);
                 footer
                     .children("." + btnClassName)
                     .bind(mouseOrTouch("click", "touchend"), btn[1])
             }
         }
         if (options.title !== "" && options.drag) {
-            var posX, posY
-            var dialogHeader = dialog.children("." + classPrefix + "dialog-header")
+            var posX, posY;
+            var dialogHeader = dialog.children("." + classPrefix + "dialog-header");
             if (!options.mask) {
                 dialogHeader.bind(mouseOrTouch("click", "touchend"), function () {
-                    editormd.dialogZindex += 2
+                    editormd.dialogZindex += 2;
                     dialog.css("z-index", editormd.dialogZindex)
                 })
             }
             var userCanSelect = function (obj) {
                 obj.removeClass(classPrefix + "user-unselect").off("selectstart")
-            }
+            };
             var userUnselect = function (obj) {
                 obj
                     .addClass(classPrefix + "user-unselect")
@@ -4097,79 +4097,79 @@
                         // selectstart for IE
                         return false
                     })
-            }
+            };
             var moveAction = function (e) {
-                e = e || window.event //IE
+                e = e || window.event; //IE
                 var left,
                     top,
                     nowLeft = parseInt(dialog[0].style.left),
-                    nowTop = parseInt(dialog[0].style.top)
+                    nowTop = parseInt(dialog[0].style.top);
                 if (nowLeft >= 0) {
                     if (nowLeft + dialog.width() <= $(window).width()) {
                         left = e.clientX - posX
                     } else {
-                        left = $(window).width() - dialog.width()
+                        left = $(window).width() - dialog.width();
                         document.onmousemove = null
                     }
                 } else {
-                    left = 0
+                    left = 0;
                     document.onmousemove = null
                 }
                 if (nowTop >= 0) {
                     top = e.clientY - posY
                 } else {
-                    top = 0
+                    top = 0;
                     document.onmousemove = null
                 }
                 document.onselectstart = function () {
                     return false
-                }
-                userUnselect($("body"))
-                userUnselect(dialog)
-                dialog[0].style.left = left + "px"
+                };
+                userUnselect($("body"));
+                userUnselect(dialog);
+                dialog[0].style.left = left + "px";
                 dialog[0].style.top = top + "px"
-            }
+            };
             dialogHeader.mousedown(function (e) {
-                e = e || window.event //IE
-                posX = e.clientX - parseInt(dialog[0].style.left)
-                posY = e.clientY - parseInt(dialog[0].style.top)
+                e = e || window.event; //IE
+                posX = e.clientX - parseInt(dialog[0].style.left);
+                posY = e.clientY - parseInt(dialog[0].style.top);
                 document.onmousemove = moveAction
-            })
+            });
             document.onmouseup = function () {
-                userCanSelect($("body"))
-                userCanSelect(dialog)
-                document.onselectstart = null
+                userCanSelect($("body"));
+                userCanSelect(dialog);
+                document.onselectstart = null;
                 document.onmousemove = null
-            }
+            };
             dialogHeader.touchDraggable = function () {
-                var offset = null
+                var offset = null;
                 var start = function (e) {
-                    var orig = e.originalEvent
+                    var orig = e.originalEvent;
                     var pos = $(this)
                         .parent()
-                        .position()
+                        .position();
                     offset = {
                         x: orig.changedTouches[0].pageX - pos.left,
                         y: orig.changedTouches[0].pageY - pos.top
                     }
-                }
+                };
                 var move = function (e) {
-                    e.preventDefault()
-                    var orig = e.originalEvent
+                    e.preventDefault();
+                    var orig = e.originalEvent;
                     $(this)
                         .parent()
                         .css({
                             top: orig.changedTouches[0].pageY - offset.y,
                             left: orig.changedTouches[0].pageX - offset.x
                         })
-                }
+                };
                 this.bind("touchstart", start).bind("touchmove", move)
-            }
+            };
             dialogHeader.touchDraggable()
         }
-        editormd.dialogZindex += 2
+        editormd.dialogZindex += 2;
         return dialog
-    }
+    };
 
     /**
      * 鼠标和触摸事件的判断/选择方法
@@ -4181,16 +4181,16 @@
      */
 
     editormd.mouseOrTouch = function (mouseEventType, touchEventType) {
-        mouseEventType = mouseEventType || "click"
-        touchEventType = touchEventType || "touchend"
-        var eventType = mouseEventType
+        mouseEventType = mouseEventType || "click";
+        touchEventType = touchEventType || "touchend";
+        var eventType = mouseEventType;
         try {
-            document.createEvent("TouchEvent")
+            document.createEvent("TouchEvent");
             eventType = touchEventType
         } catch (e) {
         }
         return eventType
-    }
+    };
 
     /**
      * 日期时间的格式化方法
@@ -4201,47 +4201,47 @@
      */
 
     editormd.dateFormat = function (format) {
-        format = format || ""
+        format = format || "";
         var addZero = function (d) {
             return d < 10 ? "0" + d : d
-        }
-        var date = new Date()
-        var year = date.getFullYear()
-        var year2 = year.toString().slice(2, 4)
-        var month = addZero(date.getMonth() + 1)
-        var day = addZero(date.getDate())
-        var weekDay = date.getDay()
-        var hour = addZero(date.getHours())
-        var min = addZero(date.getMinutes())
-        var second = addZero(date.getSeconds())
-        var ms = addZero(date.getMilliseconds())
-        var datefmt = ""
-        var ymd = year2 + "-" + month + "-" + day
-        var fymd = year + "-" + month + "-" + day
-        var hms = hour + ":" + min + ":" + second
+        };
+        var date = new Date();
+        var year = date.getFullYear();
+        var year2 = year.toString().slice(2, 4);
+        var month = addZero(date.getMonth() + 1);
+        var day = addZero(date.getDate());
+        var weekDay = date.getDay();
+        var hour = addZero(date.getHours());
+        var min = addZero(date.getMinutes());
+        var second = addZero(date.getSeconds());
+        var ms = addZero(date.getMilliseconds());
+        var datefmt = "";
+        var ymd = year2 + "-" + month + "-" + day;
+        var fymd = year + "-" + month + "-" + day;
+        var hms = hour + ":" + min + ":" + second;
         switch (format) {
             case "UNIX Time":
-                datefmt = date.getTime()
-                break
+                datefmt = date.getTime();
+                break;
             case "UTC":
-                datefmt = date.toUTCString()
-                break
+                datefmt = date.toUTCString();
+                break;
             case "yy":
-                datefmt = year2
-                break
+                datefmt = year2;
+                break;
             case "year":
             case "yyyy":
-                datefmt = year
-                break
+                datefmt = year;
+                break;
             case "month":
             case "mm":
-                datefmt = month
-                break
+                datefmt = month;
+                break;
             case "cn-week-day":
             case "cn-wd":
-                var cnWeekDays = ["日", "一", "二", "三", "四", "五", "六"]
-                datefmt = "星期" + cnWeekDays[weekDay]
-                break
+                var cnWeekDays = ["日", "一", "二", "三", "四", "五", "六"];
+                datefmt = "星期" + cnWeekDays[weekDay];
+                break;
             case "week-day":
             case "wd":
                 var weekDays = [
@@ -4252,46 +4252,46 @@
                     "Thursday",
                     "Friday",
                     "Saturday"
-                ]
-                datefmt = weekDays[weekDay]
-                break
+                ];
+                datefmt = weekDays[weekDay];
+                break;
             case "day":
             case "dd":
-                datefmt = day
-                break
+                datefmt = day;
+                break;
             case "hour":
             case "hh":
-                datefmt = hour
-                break
+                datefmt = hour;
+                break;
             case "min":
             case "ii":
-                datefmt = min
-                break
+                datefmt = min;
+                break;
             case "second":
             case "ss":
-                datefmt = second
-                break
+                datefmt = second;
+                break;
             case "ms":
-                datefmt = ms
-                break
+                datefmt = ms;
+                break;
             case "yy-mm-dd":
-                datefmt = ymd
-                break
+                datefmt = ymd;
+                break;
             case "yyyy-mm-dd":
-                datefmt = fymd
-                break
+                datefmt = fymd;
+                break;
             case "yyyy-mm-dd h:i:s ms":
             case "full + ms":
-                datefmt = fymd + " " + hms + " " + ms
-                break
+                datefmt = fymd + " " + hms + " " + ms;
+                break;
             case "full":
             case "yyyy-mm-dd h:i:s":
-                break
+                break;
             default:
-                datefmt = fymd + " " + hms
+                datefmt = fymd + " " + hms;
                 break
         }
         return datefmt
-    }
+    };
     return editormd
-})
+});

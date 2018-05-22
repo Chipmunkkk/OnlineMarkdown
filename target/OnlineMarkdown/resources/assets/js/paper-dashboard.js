@@ -135,7 +135,7 @@ pd = {
         }
 
     }
-}
+};
 
 
 // Returns a function, that, as long as it continues to be invoked, will not
@@ -154,4 +154,4 @@ function debounce(func, wait, immediate) {
 		}, wait);
 		if (immediate && !timeout) func.apply(context, args);
 	};
-};
+}

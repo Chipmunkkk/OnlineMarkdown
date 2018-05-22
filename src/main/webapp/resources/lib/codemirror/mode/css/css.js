@@ -360,7 +360,6 @@ CodeMirror.defineMode("css", function(config, parserConfig) {
            ch == ")" && (cx.type == "parens" || cx.type == "atBlock_parens") ||
            ch == "{" && (cx.type == "at" || cx.type == "atBlock"))) {
         indent = cx.indent - indentUnit;
-        cx = cx.prev;
       }
       return indent;
     },

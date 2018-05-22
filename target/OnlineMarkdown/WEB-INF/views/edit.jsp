@@ -44,14 +44,6 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="card" id="daily-pic-panel" style="height: 322px;">
-                            <div class="header">
-                                <h4 class="title"></h4>
-                            </div>
-                            <div class="content">
-
-                            </div>
-                        </div>
                     </div>
                     <div class="col-lg-8 col-md-7">
                         <div class="card" id="markdown-panel">
@@ -120,7 +112,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="text-center">
+                                <div class="text-center" style="margin-top: 40px">
                                     <button type="submit" id="btn_update" class="btn btn-info btn-fill btn-wd"
                                             onclick="updateProfile()">更新信息
                                     </button>
@@ -136,6 +128,20 @@
     </div>
 </div>
 <script>
+    if (getQueryString('tag') == 0) {
+        showNotice('信息修改成功', 'success')
+    }
+
+    function getQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");  // 匹配目标参数
+        var result = window.location.search.substr(1).match(reg); // 对querystring匹配目标参数
+        if (result != null) {
+            return decodeURIComponent(result[2]);
+        } else {
+            return null;
+        }
+    }
+
     function updateProfile() {
         var button = $('#btn_update');
 
@@ -145,10 +151,6 @@
         var password = $('#password').val();
         var re_password = $('#re-password').val();
         var description = $('#description').val();
-        console.log(password)
-        console.log(re_password)
-        console.log(password == re_password)
-        console.log(authorId)
         if (password == '' || re_password == '') {
             showNotice("密码不能为空呀～");
             button.attr("disable", true);
@@ -179,7 +181,7 @@
             },
             success: function (data) {
                 if (data.success == 0) {
-                    window.location.reload();
+                    window.location.href = "${pageContext.request.contextPath}/" + authorId + "/edit?tag=0";
                 }
             },
             error: function (data) {
@@ -188,13 +190,13 @@
         })
     }
 
-    function showNotice(msg) {
+    function showNotice(msg, type) {
         $.notify({
             icon: 'ti-bell',
             message: "<b>" + msg + "</b>"
 
         }, {
-            type: 'warning',
+            type: type,
             timer: 4000
         });
     }

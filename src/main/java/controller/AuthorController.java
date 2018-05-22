@@ -91,7 +91,7 @@ public class AuthorController {
         return null;
     }
 
-    @RequestMapping("/{authorId}/edit")
+    @GetMapping("/{authorId}/edit")
     public ModelAndView edit(@PathVariable long authorId) {
         Map<String, Object> result = new HashMap<>();
         Author author = authorService.getAuthor(authorId);
