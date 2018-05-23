@@ -19,8 +19,8 @@ public class VerificationFilter implements Filter {
         HttpSession session = request.getSession();
         String url = request.getRequestURI();
         if (session.getAttribute("author") == null) {
-            if (!(url.contains(".") || url.endsWith("mark") || url.endsWith("mark/") || url.contains("upload") || url.contains("check") || url.contains("login") || url.contains("register") || url.endsWith("OnlineMarkdown/"))) {
-                response.sendRedirect("/OnlineMarkdown/login");
+            if (!(url.contains(".") || url.endsWith("mark") || url.endsWith("mark/") || url.contains("upload") || url.contains("check") || url.contains("login") || url.contains("register") || url.endsWith("/"))) {
+                response.sendRedirect("/login");
                 return;
             }
         }

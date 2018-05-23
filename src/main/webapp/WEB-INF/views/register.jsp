@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="renderer" content="webkit">
     <title>注册</title>
-    <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/animate.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/style.css">
     <link href="${pageContext.request.contextPath}/resources/assets/css/login-register.css" rel="stylesheet"/>
@@ -75,8 +75,8 @@
         </div>
     </div>
 </div>
-<script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
-<script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/jquery.min.2.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
 <!-- Placeholder -->
 <script src="${pageContext.request.contextPath}/resources/assets/js/jquery.placeholder.min.js"></script>
 <!-- Waypoints -->

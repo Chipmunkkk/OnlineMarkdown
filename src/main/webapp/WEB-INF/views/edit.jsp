@@ -171,7 +171,7 @@
         button.removeAttr("disable");
         $.ajax({
             type: "POST",
-            url: "/OnlineMarkdown/" + authorId + "/edit",
+            url: authorId + "/edit",
             data: {
                 _method: "put",
                 nickname: nickname,

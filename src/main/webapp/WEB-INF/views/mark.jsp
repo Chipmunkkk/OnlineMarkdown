@@ -103,7 +103,7 @@
             imageFormats:
                 ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
             imageUploadURL:
-                "/OnlineMarkdown/upload",
+                "/upload",
             saveHTMLToTextarea:
                 true,
             toolbarIcons:
@@ -144,7 +144,7 @@
                             };
                             sessionStorage.setItem('markdown', JSON.stringify(info));
                             console.log("保存成功")
-                            window.location.href = "/OnlineMarkdown/login";
+                            window.location.href = "/login";
                         }
                         if ($('#title').val() == '') {
                             $('#title').val('未命名Markdown');
@@ -153,10 +153,10 @@
                             type: "POST",
                             <c:choose>
                             <c:when test="${markdown.content ne null}">
-                            url: "/OnlineMarkdown/${sessionScope.author.authorId}/markdown/${markdown.markdownId}",
+                            url: "/${sessionScope.author.authorId}/markdown/${markdown.markdownId}",
                             </c:when>
                             <c:otherwise>
-                            url: "/OnlineMarkdown/${sessionScope.author.authorId}/markdown",
+                            url: "/${sessionScope.author.authorId}/markdown",
                             </c:otherwise>
                             </c:choose>
                             data: {
@@ -166,7 +166,7 @@
                                 html: editormd("my-editormd").getHTML()
                             },
                             success: function (data) {
-                                window.location.href = "/OnlineMarkdown/${sessionScope.author.authorId}/markdown/" + data.mark.markdownId + "?tag=0";
+                                window.location.href = "/${sessionScope.author.authorId}/markdown/" + data.mark.markdownId + "?tag=0";
                                 console.log("Save success!")
                             },
                             error: function () {

@@ -44,7 +44,7 @@ public class MarkdownController {
             //下面response返回的json格式是editor.md所限制的，规范输出就OK
             result.put("success", 1);
             result.put("message", "上传成功");
-            result.put("url", "/OnlineMarkdown/images/" + image.getOriginalFilename());
+            result.put("url", "/images/" + image.getOriginalFilename());
         } catch (Exception e) {
             result.put("success", 0);
         }

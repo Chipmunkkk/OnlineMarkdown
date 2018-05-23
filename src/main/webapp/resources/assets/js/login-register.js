@@ -11,14 +11,14 @@ function login() {
     }
     $.ajax({
         type: "POST",
-        url: "/OnlineMarkdown/loginConfirm",
+        url: "/loginConfirm",
         data: {
             email: email,
             password: password
         },
         success: function (data) {
             if (data.success == 0) {
-                window.location.href = "/OnlineMarkdown";
+                window.location.href = "/";
             } else {
                 shakeModal(data.msg);
             }
@@ -59,7 +59,7 @@ function register() {
     }
     $.ajax({
         type: "POST",
-        url: "/OnlineMarkdown/registerConfirm",
+        url: "/registerConfirm",
         data: {
             nickname: nickname,
             email: email,
@@ -67,7 +67,7 @@ function register() {
         },
         success: function (data) {
             if (data.success == 0) {
-                window.location.href = "/OnlineMarkdown/login";
+                window.location.href = "/login";
             } else {
                 showError(data.msg);
             }
@@ -89,7 +89,7 @@ function checkEmail() {
     verifyEmail(email);
     $.ajax({
         type: "POST",
-        url: "/OnlineMarkdown/check",
+        url: "/check",
         data: {
             email: email
         },
